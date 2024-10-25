@@ -165,7 +165,6 @@
                             Authorization: `Bearer ${token}`
                         }
                     })
-                    console.log(`data admin is ${response}`)
                     this.nameUser = response.data.admin.firsName
                    
                 } catch (error) {

@@ -94,7 +94,6 @@
         data() {
             return {
 
-                // Start Modal
                 category: {
                     name: '',
                     image: '',
@@ -111,12 +110,10 @@
 
                 // finish Modal
 
-                fields: [
-                    {
+                fields: [{
                         key: 'Image',
                         sortable: false,
                         tdClass: 'image-cell'
-
                     },
                     {
                         key: 'Name',
@@ -164,7 +161,7 @@
                 allProducts: state => state.Products
             }),
             ...mapState('allCategories', {
-                allCategories: state => state.categories.filter(ele=>ele.delete===false)
+                allCategories: state => state.categories.filter(ele => ele.delete === false)
             }),
 
             itemsCategories() {
@@ -173,7 +170,7 @@
                         const obj = new Object
                         obj.Image = ele.img
                         obj.Name = ele.name
-                        obj.Products = this.allProducts.filter(prd => prd.category === ele._id).length 
+                        obj.Products = this.allProducts.filter(prd => prd.category === ele._id).length
                         obj.visibility = ele.visibility
                         obj.Date = ele.date
                         obj.id = ele._id
@@ -267,11 +264,12 @@
                         formData.append('img', this.category.image)
                         formData.append('visibility', this.category.visibility)
 
-                        this.$store.dispatch('allCategories/ac_addCategory', formData)
-                        this.onHide()
+                        if(this.category.image!=='' && this.category.name!==''){
+                            this.$store.dispatch('allCategories/ac_addCategory', formData)
+                            this.onHide()
+                        }       
                     }
                 }
-
             },
 
             // change img
@@ -281,15 +279,6 @@
                     this.category.image = file
                     this.imageUpload = URL.createObjectURL(file)
                 }
-            },
-
-            makeToast() {
-                this.$bvToast.toast('Toast body content', {
-                    title: `Category is created with successful`,
-                    variant: 'success',
-                    solid: true,
-                    noAutoHide: true
-                })
             },
 
             // ----------------------- finish add new product or Edit -----------------------

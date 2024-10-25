@@ -69,7 +69,6 @@ const actions = {
             const newcategory=response.data.category
             commit('m_addCategory',newcategory)
 
-
         }
         catch(error){
             console.log(`error add category is ${error}`)
