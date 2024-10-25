@@ -6,7 +6,7 @@
                 <!----- search category ----->
                 <b-col sm="6">
                     <b-input-group size="sm">
-                        <b-form-input id="filter-input" v-model="filter" type="search" placeholder="Type to Search">
+                        <b-form-input class="bg-transparent" id="filter-input" v-model="filter" type="search" placeholder="Type to Search">
                         </b-form-input>
                     </b-input-group>
 
@@ -314,7 +314,13 @@
     }
 
     #filter-input {
-        padding-block: 22px;
+        padding-block: 12px;
+        border:1px solid var(--couleur-primaire-2);
+        color: white;
+        &:focus{
+            box-shadow: none;
+            border-color: white;
+        }
     }
 
     #filter-input::placeholder {
