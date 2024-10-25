@@ -64,7 +64,6 @@
       }
     },
 
-    // onclick ===> if field ==> push and if false 
 
     methods: {
       async login() {
