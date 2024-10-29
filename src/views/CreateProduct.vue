@@ -4,6 +4,7 @@
             <div class="p-4 bg-page">
                 <h3><strong>Create new product</strong></h3>
                 <p class="text-secondary mb-5">Remplissez les détails de votre nouveau produit ci-dessous.</p>
+                <p>{{ formProduct.promotion }}</p>
                 <form @submit.prevent="handlForm" ref="form">
                     <b-row class="g-4">
                         <b-col cols="12">
@@ -44,7 +45,7 @@
 
                         <b-col cols="12" lg="12" v-if="statusPricAfter==='accepted'">
                             <b-form-group id="input-quantity" label="Price after:" label-for="input-4">
-                                <b-form-input class="bg-transparent" v-model="formProduct.promotion.priceAfter"
+                                <b-form-input class="bg-transparent" v-model.number="formProduct.promotion.priceAfter"
                                     id="input" type="number" placeholder="Enter Price product" required>
                                 </b-form-input>
                             </b-form-group>
@@ -200,6 +201,7 @@
                 Products: state => state.Products.filter(ele => ele.delete === false)
             }),
 
+
             date() {
 
                 let newdate = new Date();
@@ -235,20 +237,20 @@
                         id: this.id
                     })
                 } else {
+      
                     // CREATE PRODUCT
                     if (this.formProduct.category !== '' && this.formProduct.name !== '' && this.formProduct.imgs
                         .length !== 0 && this.formProduct.price !== '' && this.formProduct.quantity !== '') {
 
-                        this.formProduct.admin = localStorage.getItem('token')
 
                         // value promotion
                         if (this.statusPricAfter === 'accepted') {
-                            this.formProduct.promotion.percentage = Math.round(-(((this.formProduct.price - this
-                                .formProduct.promotion.priceAfter) / this.formProduct.price) * 100 - 100))
+                            this.formProduct.promotion.percentage = Math.round(-(((this.formProduct.price - this.formProduct.promotion.priceAfter) / this.formProduct.price) * 100 - 100))
                         } else if (this.statusPricAfter === 'not_accepted') {
                             this.formProduct.promotion.percentage = 0
                             this.formProduct.promotion.priceAfter = 0
                         }
+
                         // value shipping
                         if (this.ShippingSelected === 'Free shipping') {
                             this.formProduct.shipping = 0
@@ -313,16 +315,19 @@
                     this.formProduct.description=product.description
                     this.formProduct.price=product.price
                     this.formProduct.quantity=product.quantity
-                    this.formProduct.shipping=product.shipping
-                    this.formProduct.promotion=product.promotion
-                    this.formProduct.visibility=product.visibility
+                    this.ShippingSelected = product.shipping === 0 ? 'Free shipping' : 'Paid shipping'
+                    this.shippingValue=product.shipping
+                    this.formProduct.visibility = product.visibility
                     this.imageUpload=product.imgs
+                    if(product.promotion.priceAfter>0){
+                        this.statusPricAfter='accepted'
+                        this.formProduct.promotion.priceAfter=product.promotion.priceAfter
+                    }
 
                 } catch (error) {
                     console.log(error)
                 }
             }
-
 
         },
 
