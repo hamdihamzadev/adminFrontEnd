@@ -73,7 +73,7 @@
                             </b-input-group>
                         </b-col>
 
-                        <b-col  cols="12">
+                        <b-col cols="12">
                             <b-form-group label="Visibility" label-for="category-visibility">
                                 <b-form-select id="category-visibility" v-model="formProduct.visibility"
                                     :options="visibilityOptions">
@@ -127,6 +127,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     import {
         mapActions,
         mapState
@@ -177,7 +178,9 @@
                     value: false
                 }],
                 ShippingSelected: 'Free shipping',
-                shippingValue:0
+                shippingValue: 0,
+
+                apiUrl: process.env.VUE_APP_API_URL
 
             }
         },
@@ -192,6 +195,11 @@
                     return obj
                 })
             }),
+
+            ...mapState('allProducts', {
+                Products: state => state.Products.filter(ele => ele.delete === false)
+            }),
+
             date() {
 
                 let newdate = new Date();
@@ -226,7 +234,6 @@
                         product: formData,
                         id: this.id
                     })
-                    this.hideModal()
                 } else {
                     // CREATE PRODUCT
                     if (this.formProduct.category !== '' && this.formProduct.name !== '' && this.formProduct.imgs
@@ -236,30 +243,31 @@
 
                         // value promotion
                         if (this.statusPricAfter === 'accepted') {
-                            this.formProduct.promotion.percentage = Math.round(-(((this.formProduct.price - this.formProduct.promotion.priceAfter) / this.formProduct.price) * 100 - 100))
+                            this.formProduct.promotion.percentage = Math.round(-(((this.formProduct.price - this
+                                .formProduct.promotion.priceAfter) / this.formProduct.price) * 100 - 100))
                         } else if (this.statusPricAfter === 'not_accepted') {
                             this.formProduct.promotion.percentage = 0
                             this.formProduct.promotion.priceAfter = 0
                         }
                         // value shipping
-                        if(this.ShippingSelected==='Free shipping'){
-                            this.formProduct.shipping=0
-                        }else if(this.ShippingSelected==='Paid shipping'){
-                            this.formProduct.shipping=this.shippingValue
+                        if (this.ShippingSelected === 'Free shipping') {
+                            this.formProduct.shipping = 0
+                        } else if (this.ShippingSelected === 'Paid shipping') {
+                            this.formProduct.shipping = this.shippingValue
                         }
 
                         const formData = new FormData()
-                        formData.append('category',this.formProduct.category)
-                        formData.append('name',this.formProduct.name)
-                        formData.append('price',this.formProduct.price)
-                        formData.append('quantity',this.formProduct.quantity)
-                        formData.append('description',this.formProduct.description)
-                        formData.append('shipping',this.formProduct.shipping)
-                        formData.append('promotion',JSON.stringify(this.formProduct.promotion))
-                        this.formProduct.imgs.forEach(file=>{
-                            formData.append('imgs',file)
+                        formData.append('category', this.formProduct.category)
+                        formData.append('name', this.formProduct.name)
+                        formData.append('price', this.formProduct.price)
+                        formData.append('quantity', this.formProduct.quantity)
+                        formData.append('description', this.formProduct.description)
+                        formData.append('shipping', this.formProduct.shipping)
+                        formData.append('promotion', JSON.stringify(this.formProduct.promotion))
+                        this.formProduct.imgs.forEach(file => {
+                            formData.append('imgs', file)
                         })
-                        formData.append('visibility',this.formProduct.visibility)
+                        formData.append('visibility', this.formProduct.visibility)
 
                         this.$store.dispatch('allProducts/ac_addProduct', formData)
 
@@ -284,12 +292,52 @@
 
             ...mapActions("allCategories", {
                 fetchCategories: 'ac_getCategories'
-            })
+            }),
+
+            ...mapActions('allProducts', {
+                fetchProducts: 'ac_getProducts'
+            }),
+
+            async getprod(id) {
+                try {
+                    const token=localStorage.getItem('token')
+                    const response = await axios.get(`${this.apiUrl}/api/product/product/${id}`,{
+                        headers:{
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    const product=response.data.product
+            
+                    this.formProduct.category=product.category
+                    this.formProduct.name=product.name
+                    this.formProduct.description=product.description
+                    this.formProduct.price=product.price
+                    this.formProduct.quantity=product.quantity
+                    this.formProduct.shipping=product.shipping
+                    this.formProduct.promotion=product.promotion
+                    this.formProduct.visibility=product.visibility
+                    this.imageUpload=product.imgs
+
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
 
         },
 
         mounted() {
+
+            //  Fetch products and categories
             this.fetchCategories()
+            this.fetchProducts()
+
+            // Get product in edit
+            let id = this.$route.params.id
+            if (id.length > 1) {
+                this.textbtnform = 'Edit'
+                this.getprod(id)
+            }
         }
     }
 </script>

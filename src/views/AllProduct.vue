@@ -30,11 +30,9 @@
                     </b-form-checkbox>
                 </template>
 
-                <template #cell(Action)>
-                 
-                        <b-icon class="me-2" icon="trash-fill" aria-hidden="true"></b-icon>
-                        <b-icon  icon="pencil-fill" aria-hidden="true"></b-icon>
-                   
+                <template #cell(Action)="dataAction">
+                    <b-icon @click="deleteProduct(dataAction.item.id)" class="me-2 cursor" icon="trash-fill" aria-hidden="true"></b-icon>
+                    <b-icon @click="editProduct(dataAction.item.id)" class="cursor" icon="pencil-fill" aria-hidden="true"></b-icon>
                 </template>
 
 
@@ -162,6 +160,11 @@
                 this.$router.push('/createproduct/1')
             },
 
+            //  Action 
+            editProduct(id) {
+                this.$router.push(`/createproduct/${id}`)
+            },
+
             selectBox(event, item) {
 
                 if (event === 'accepted') {
@@ -173,7 +176,6 @@
                         return product.Date !== item.Date
                     })
                 }
-                console.log(this.allPrdDelete)
             },
 
             handleActionChange(ev, item) {
@@ -215,7 +217,7 @@
         margin-top: 23px;
     }
 
-    .cursor{
+    .cursor {
         cursor: pointer;
     }
 
