@@ -2,18 +2,18 @@
     <section class="allproduts">
         <b-container fluid>
             <div class="row">
-                <h1 class="col text-center fw-bolder">All products</h1>             
+                <h1 class="col text-center fw-bolder">All products</h1>
             </div>
             <div class="d-flex justify-content-between mt-5 flex-column flex-md-row gap-3">
                 <!----- SEARCH INPUT ----->
                 <SearchTable />
                 <!----- add prduct ----->
-                <b-button @click="goToCreatePrd" >Create product</b-button>
+                <b-button @click="goToCreatePrd">Create product</b-button>
             </div>
-            <p>{{ Products }}</p>
 
             <!----- TABLE PRODUCT ----->
-            <b-table responsive striped hover :items="allProducts" :fields="fields" sort-icon-left :per-page="perPage" :current-page="currentPage"  class="mt-2" id="my-table">
+            <b-table responsive striped hover :items="allProducts" :fields="fields" sort-icon-left :per-page="perPage"
+                :current-page="currentPage" class="mt-2" id="my-table">
 
                 <template #cell(Image)="image">
                     <b-img :src="image.value" alt="Responsive image" id="img-product"></b-img>
@@ -30,13 +30,11 @@
                     </b-form-checkbox>
                 </template>
 
-                <template #cell(Action)="data">
-                    <select class="form-select" aria-label="Select an action"
-                        @change="handleActionChange($event,data.item)">
-                        <option selected>Choose...</option>
-                        <option value="edit">Edit</option>
-                        <option value="delete">Delete</option>
-                    </select>
+                <template #cell(Action)>
+                 
+                        <b-icon class="me-2" icon="trash-fill" aria-hidden="true"></b-icon>
+                        <b-icon  icon="pencil-fill" aria-hidden="true"></b-icon>
+                   
                 </template>
 
 
@@ -131,34 +129,36 @@
             }),
 
             ...mapState('allProducts', {
-                Products: state => state.Products  
+                Products: state => state.Products
             }),
 
-            allProducts(){
+            allProducts() {
                 return this.Products
-                .map(ele => {
-                    const obj = new Object
-                    obj.Image = ele.imgs[0]
-                    obj.Name = ele.name
-                    obj.Price = ele.price
-                    obj.Category={
-                        id:this.allcategories.find(ctg=> ctg.id===ele.category) ? this.allcategories.find(ctg=> ctg.id===ele.category).id:'', 
-                        name:this.allcategories.find(ctg=> ctg.id===ele.category) ? this.allcategories.find(ctg=> ctg.id===ele.category).name:''
-                    }
-                    obj.Quantity = ele.quantity
-                    obj.Date = ele.date
-                    obj.Description = ele.description
-                    obj.id = ele._id
-                    
-                    return obj
-                })
+                    .map(ele => {
+                        const obj = new Object
+                        obj.Image = ele.imgs[0]
+                        obj.Name = ele.name
+                        obj.Price = ele.price
+                        obj.Category = {
+                            id: this.allcategories.find(ctg => ctg.id === ele.category) ? this.allcategories
+                                .find(ctg => ctg.id === ele.category).id : '',
+                            name: this.allcategories.find(ctg => ctg.id === ele.category) ? this.allcategories
+                                .find(ctg => ctg.id === ele.category).name : ''
+                        }
+                        obj.Quantity = ele.quantity
+                        obj.Date = ele.date
+                        obj.Description = ele.description
+                        obj.id = ele._id
+
+                        return obj
+                    })
             }
-           
+
         },
 
         methods: {
 
-            goToCreatePrd(){
+            goToCreatePrd() {
                 this.$router.push('/createproduct/1')
             },
 
@@ -183,7 +183,7 @@
                 } else if (value === "delete") {
                     const userConfirmed = window.confirm("Do you really want to delete this product ?")
                     if (userConfirmed) {
-                        this.$store.dispatch('allProducts/ac_deleteProduct',item.id)
+                        this.$store.dispatch('allProducts/ac_deleteProduct', item.id)
                     }
 
                 }
@@ -213,6 +213,10 @@
 <style scoped>
     .allproduts {
         margin-top: 23px;
+    }
+
+    .cursor{
+        cursor: pointer;
     }
 
     #btn-addprd {

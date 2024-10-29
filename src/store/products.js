@@ -64,14 +64,14 @@ const actions = {
     }) {
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.get(`${apiUrl}/api/product`, {
+            const response = await axios.get(`${apiUrl}/api/product/allProducts`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
 
             const Products = response.data.products
-            commit('m_getProducts', Products)
+            commit('m_getProducts',Products)
 
         } catch (error) {
             console.log('error is :', error)
