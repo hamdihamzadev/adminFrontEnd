@@ -248,8 +248,6 @@
                             id,
                             formCategoryUpdate
                         })
-
-                        console.log(this.$refs[`select${this.indexCtgUpdlt}`])
                         this.onHide()
                     }
 

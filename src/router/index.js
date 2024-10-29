@@ -4,6 +4,7 @@ import LoginUser from '../views/LoginUser.vue'
 import SignUp from '../views/SignUp.vue'
 import CategoryViews from '../views/CategoryViews.vue'
 import AllProducts from '../views/AllProduct.vue'
+import CreateProduct from '../views/CreateProduct.vue'
 import DashBord from '../views/DashBord.vue'
 // import NewOrders from '../views/NewOrders.vue'
 // import ConfirmedOredrs from '../views/ConfirmedOrders.vue'
@@ -39,7 +40,8 @@ const routes = [
   { path: '/', component: SignUp },
   { path: '/Login', component: LoginUser},
   { path: '/Categories', component: CategoryViews},
-  { path: '/Products', component: AllProducts},
+  { path: '/allproducts', component: AllProducts},
+  { path: '/createproduct/:id', component: CreateProduct},
   { path: '/DashBord', component: DashBord },
   // { path: '/Orders/NewOrders', component: NewOrders },
   // { path: '/Orders/Confirmed', component: ConfirmedOredrs},

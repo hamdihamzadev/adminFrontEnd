@@ -90,11 +90,21 @@
             text: 'Conversion',
             iconLink: 'bx bxs-pie-chart-alt-2',
           },
+
           {
-            path: '/Products',
             text: 'Products',
             iconLink: 'bx bxs-shopping-bag-alt',
-
+            collapseId: 'collapseProducts',
+            arrowCollapse: true,
+            childPath: [{
+                path: '/createproduct/1',
+                text: 'Create product'
+              },
+              {
+                path: '/allproducts',
+                text: 'All products'
+              },
+            ]
           },
 
           {

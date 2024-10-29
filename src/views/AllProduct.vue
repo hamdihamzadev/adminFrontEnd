@@ -8,8 +8,9 @@
                 <!----- SEARCH INPUT ----->
                 <SearchTable />
                 <!----- add prduct ----->
-                <AddProduct ref="componentAddprd" />
+                <b-button @click="goToCreatePrd" >Create product</b-button>
             </div>
+            <p>{{ Products }}</p>
 
             <!----- TABLE PRODUCT ----->
             <b-table responsive striped hover :items="allProducts" :fields="fields" sort-icon-left :per-page="perPage" :current-page="currentPage"  class="mt-2" id="my-table">
@@ -50,9 +51,7 @@
 </template>
 
 <script>
-    import AddProduct from '../views/products/AddProducts.vue'
     import SearchTable from '../components/SearchTable.vue'
-
     import {
         mapState,
         mapActions
@@ -62,7 +61,6 @@
     export default {
         name: 'AllProducts',
         components: {
-            AddProduct,
             SearchTable
         },
         data() {
@@ -140,7 +138,7 @@
                 return this.Products
                 .map(ele => {
                     const obj = new Object
-                    obj.Image = ele.image
+                    obj.Image = ele.imgs[0]
                     obj.Name = ele.name
                     obj.Price = ele.price
                     obj.Category={
@@ -159,6 +157,10 @@
         },
 
         methods: {
+
+            goToCreatePrd(){
+                this.$router.push('/createproduct/1')
+            },
 
             selectBox(event, item) {
 

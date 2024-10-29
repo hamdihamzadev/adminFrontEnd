@@ -106,7 +106,8 @@
       #section-topCustomer,
       #topStatistics,
       .allcategories,
-      .listecustomers{
+      .listecustomers,
+      #createproduct{
         margin: 47px 0px;
 
       }
