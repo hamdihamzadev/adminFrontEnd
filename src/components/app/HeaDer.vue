@@ -35,7 +35,9 @@
                     <b-avatar variant="info" :src="imageSrc" @click="toggleDropdown">
                         <template #badge>
                             <b-icon icon="arrow-down-circle-fill"></b-icon>
-                        </template></b-avatar>
+                        </template>
+                    </b-avatar>
+               
                 </template>
 
                 <b-dropdown-item href="#">Hello <strong>{{ nameUser }}</strong></b-dropdown-item>

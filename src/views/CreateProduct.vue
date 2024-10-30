@@ -1,89 +1,100 @@
 <template>
     <section>
         <b-container class="p-4" fluid>
+
             <div class="p-4 bg-page">
                 <h3><strong>Create new product</strong></h3>
                 <p class="text-secondary mb-5">Remplissez les détails de votre nouveau produit ci-dessous.</p>
                 <form @submit.prevent="handlForm" ref="form">
                     <b-row class="g-4">
                         <b-col cols="12">
-                            <b-form-group id="input-name" label="Name:" label-for="input-1">
+                            <b-form-group id="input-name" label="Name:" label-for="input-1"  v-if="isLoading===false" >
                                 <b-form-input class="bg-transparent" v-model="formProduct.name" id="input" type="text"
                                     placeholder="Enter name product" required>
                                 </b-form-input>
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col cols="12">
-                            <b-form-group id="input-category" label="Category:" label-for="selectCategory">
+                            <b-form-group id="input-category" label="Category:" label-for="selectCategory" v-if="isLoading===false">
                                 <b-form-select class="w-100" v-model="formProduct.category" id="selectCategory"
                                     :options="allcategories" required>
                                 </b-form-select>
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading" ></b-skeleton>
                         </b-col>
 
                         <b-col cols="12" lg="6">
-                            <b-form-group id="input-price" label="Price:" label-for="input-1">
+                            <b-form-group id="input-price" label="Price:" label-for="input-1" >
                                 <b-form-input class="bg-transparent" v-model="formProduct.price" id="input"
-                                    type="number" placeholder="Enter Price product" required>
+                                    type="number" placeholder="Enter Price product" v-if="isLoading===false" required>
                                 </b-form-input>
+                                <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                                 <b-form-checkbox class="mt-2" id="checkbox-1" v-model="statusPricAfter"
-                                    name="checkbox-1" value="accepted" unchecked-value="not_accepted"> <span
+                                    name="checkbox-1" value="accepted" unchecked-value="not_accepted" v-if="isLoading===false"> <span
                                         class="ms-1"> Appliquer une promotion</span>
                                 </b-form-checkbox>
                             </b-form-group>
+
                         </b-col>
 
                         <b-col cols="12" lg="6">
-                            <b-form-group id="input-quantity" label="Quantity:" label-for="input-4">
+                            <b-form-group id="input-quantity" label="Quantity:" label-for="input-4" v-if="isLoading===false">
                                 <b-form-input class="bg-transparent" v-model="formProduct.quantity" id="input"
                                     type="number" placeholder="Enter Quantity product" required>
                                 </b-form-input>
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col cols="12" lg="12" v-if="statusPricAfter==='accepted'">
-                            <b-form-group id="input-quantity" label="Price after:" label-for="input-4">
+                            <b-form-group id="input-quantity" label="Price after:" label-for="input-4" v-if="isLoading===false">
                                 <b-form-input class="bg-transparent" v-model.number="formProduct.promotion.priceAfter"
                                     id="input" type="number" placeholder="Enter Price product" required>
                                 </b-form-input>
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col cols="12">
                             <b-form-group label="Description">
                                 <b-form-textarea class="bg-transparent" v-model="formProduct.description" id="input"
-                                    placeholder="Auto height textarea" rows="3" required>
+                                    placeholder="Auto height textarea" rows="3" v-if="isLoading===false" required>
                                 </b-form-textarea>
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col cols="12">
                             <b-form-group label="Shipping" class="w-100">
                                 <b-form-select class="w-100" id="selectShipping" placeholder="Select a delivery option"
-                                    v-model="ShippingSelected" :options="optionsShipping" required>
+                                    v-model="ShippingSelected" :options="optionsShipping" v-if="isLoading===false" required>
                                 </b-form-select>
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col v-if="ShippingSelected==='Paid shipping'" cols="12">
-                            <b-input-group size="lg" prepend="$">
+                            <b-input-group size="lg" prepend="$" v-if="isLoading===false">
                                 <b-form-input type="number" class="bg-transparent h-100" v-model="shippingValue"
                                     id="input"></b-form-input>
                             </b-input-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col cols="12">
-                            <b-form-group label="Visibility" label-for="category-visibility">
+                            <b-form-group label="Visibility" label-for="category-visibility" v-if="isLoading===false">
                                 <b-form-select id="category-visibility" v-model="formProduct.visibility"
                                     :options="visibilityOptions">
                                 </b-form-select>
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col cols="12">
 
-                            <b-row id="container-uploadImg" class="p-4">
+                            <b-row id="container-uploadImg" class="p-4" v-if="isLoading===false">
 
                                 <b-col cols="4" class="d-flex flex-column align-items-center">
                                     <svg class="w-50" stroke="currentColor" fill="none" viewBox="0 0 48 48"
@@ -110,11 +121,12 @@
                                 </b-col>
 
                             </b-row>
-
+                            <b-skeleton-img no-aspect height="150px" v-show="isLoading"></b-skeleton-img>
                         </b-col>
 
                         <b-col cols="12">
-                            <b-button class="w-100" variant="primary" type="submit">{{ textbtnform }}</b-button>
+                            <b-button class="w-100" variant="primary" type="submit" v-if="isLoading===false">{{ textbtnform }}</b-button>
+                            <b-skeleton width="100%" type="button" v-show="isLoading" ></b-skeleton>
                         </b-col>
                     </b-row>
 
@@ -137,6 +149,7 @@
         name: 'CreateProduct',
         data() {
             return {
+                isLoading: true,
                 statusPricAfter: 'not_accepted',
                 formProduct: {
                     admin: '',
@@ -310,7 +323,8 @@
                     })
                     const product = response.data.product
 
-                    this.formProduct.category = product.category
+                    setTimeout(()=>{
+                        this.formProduct.category = product.category
                     this.formProduct.name = product.name
                     this.formProduct.description = product.description
                     this.formProduct.price = product.price
@@ -319,10 +333,18 @@
                     this.shippingValue = product.shipping
                     this.formProduct.visibility = product.visibility
                     this.imageUpload = product.imgs
-                    if (product.promotion.priceAfter > 0) {
-                        this.statusPricAfter = 'accepted'
-                        this.formProduct.promotion.priceAfter = product.promotion.priceAfter
+                    if (product.promotion) {
+                        if (product.promotion.priceAfter !== 0) {
+                            this.statusPricAfter = 'accepted'
+                            this.formProduct.promotion.priceAfter = product.promotion.priceAfter
+                        } else {
+                            this.statusPricAfter = 'not_accepted'
+                        }
                     }
+                    this.isLoading=false
+                    },1000)
+
+
 
                 } catch (error) {
                     console.log(error)
@@ -330,9 +352,12 @@
             },
 
             resetValuesForm() {
-                this.formProduct.name = '', this.formProduct.category = '', this.formProduct.price = '', this.formProduct.quantity = '', 
-                this.formProduct.promotion.priceAfter = '' , this.formProduct.description = '', this.ShippingSelected='Free shipping',
-                this.statusPricAfter ='not_accepted', this.formProduct.visibility = true, this.imageUpload = '', this.textbtnform='Create'
+                this.formProduct.name = '', this.formProduct.category = '', this.formProduct.price = '', this
+                    .formProduct.quantity = '',
+                    this.formProduct.promotion.priceAfter = '', this.formProduct.description = '', this
+                    .ShippingSelected = 'Free shipping',
+                    this.statusPricAfter = 'not_accepted', this.formProduct.visibility = true, this.imageUpload = '',
+                    this.textbtnform = 'Create'
             }
 
         },
@@ -354,10 +379,13 @@
 
             // Get product in edit
             let id = this.$route.params.id
+            console.log(typeof id)
             if (id.length > 1) {
                 this.textbtnform = 'Edit'
                 this.getprod(id)
-            } 
+            }else if(id==='1'){
+                this.isLoading=false
+            }
         }
     }
 </script>
@@ -435,6 +463,19 @@
 
     v::deep #__BVID__84 {
         background-color: #313131;
+    }
+
+    .fullscreen-spinner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
     }
 
 
