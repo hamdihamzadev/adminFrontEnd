@@ -4,7 +4,6 @@
             <div class="p-4 bg-page">
                 <h3><strong>Create new product</strong></h3>
                 <p class="text-secondary mb-5">Remplissez les détails de votre nouveau produit ci-dessous.</p>
-                <p>{{ formProduct.promotion }}</p>
                 <form @submit.prevent="handlForm" ref="form">
                     <b-row class="g-4">
                         <b-col cols="12">
@@ -237,7 +236,7 @@
                         id: this.id
                     })
                 } else {
-      
+
                     // CREATE PRODUCT
                     if (this.formProduct.category !== '' && this.formProduct.name !== '' && this.formProduct.imgs
                         .length !== 0 && this.formProduct.price !== '' && this.formProduct.quantity !== '') {
@@ -245,7 +244,8 @@
 
                         // value promotion
                         if (this.statusPricAfter === 'accepted') {
-                            this.formProduct.promotion.percentage = Math.round(-(((this.formProduct.price - this.formProduct.promotion.priceAfter) / this.formProduct.price) * 100 - 100))
+                            this.formProduct.promotion.percentage = Math.round(-(((this.formProduct.price - this
+                                .formProduct.promotion.priceAfter) / this.formProduct.price) * 100 - 100))
                         } else if (this.statusPricAfter === 'not_accepted') {
                             this.formProduct.promotion.percentage = 0
                             this.formProduct.promotion.priceAfter = 0
@@ -302,33 +302,48 @@
 
             async getprod(id) {
                 try {
-                    const token=localStorage.getItem('token')
-                    const response = await axios.get(`${this.apiUrl}/api/product/product/${id}`,{
-                        headers:{
+                    const token = localStorage.getItem('token')
+                    const response = await axios.get(`${this.apiUrl}/api/product/product/${id}`, {
+                        headers: {
                             Authorization: `Bearer ${token}`
                         }
                     })
-                    const product=response.data.product
-            
-                    this.formProduct.category=product.category
-                    this.formProduct.name=product.name
-                    this.formProduct.description=product.description
-                    this.formProduct.price=product.price
-                    this.formProduct.quantity=product.quantity
+                    const product = response.data.product
+
+                    this.formProduct.category = product.category
+                    this.formProduct.name = product.name
+                    this.formProduct.description = product.description
+                    this.formProduct.price = product.price
+                    this.formProduct.quantity = product.quantity
                     this.ShippingSelected = product.shipping === 0 ? 'Free shipping' : 'Paid shipping'
-                    this.shippingValue=product.shipping
+                    this.shippingValue = product.shipping
                     this.formProduct.visibility = product.visibility
-                    this.imageUpload=product.imgs
-                    if(product.promotion.priceAfter>0){
-                        this.statusPricAfter='accepted'
-                        this.formProduct.promotion.priceAfter=product.promotion.priceAfter
+                    this.imageUpload = product.imgs
+                    if (product.promotion.priceAfter > 0) {
+                        this.statusPricAfter = 'accepted'
+                        this.formProduct.promotion.priceAfter = product.promotion.priceAfter
                     }
 
                 } catch (error) {
                     console.log(error)
                 }
+            },
+
+            resetValuesForm() {
+                this.formProduct.name = '', this.formProduct.category = '', this.formProduct.price = '', this.formProduct.quantity = '', 
+                this.formProduct.promotion.priceAfter = '' , this.formProduct.description = '', this.ShippingSelected='Free shipping',
+                this.statusPricAfter ='not_accepted', this.formProduct.visibility = true, this.imageUpload = '', this.textbtnform='Create'
             }
 
+        },
+
+        watch: {
+            '$route.params.id': {
+                immediate: true,
+                handler() {
+                    this.resetValuesForm()
+                },
+            }
         },
 
         mounted() {
@@ -342,7 +357,7 @@
             if (id.length > 1) {
                 this.textbtnform = 'Edit'
                 this.getprod(id)
-            }
+            } 
         }
     }
 </script>
