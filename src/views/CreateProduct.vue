@@ -1,14 +1,16 @@
 <template>
     <section>
+
         <b-container class="p-4" fluid>
 
             <div class="p-4 bg-page">
                 <h3><strong>Create new product</strong></h3>
                 <p class="text-secondary mb-5">Remplissez les détails de votre nouveau produit ci-dessous.</p>
+
                 <form @submit.prevent="handlForm" ref="form">
                     <b-row class="g-4">
                         <b-col cols="12">
-                            <b-form-group id="input-name" label="Name:" label-for="input-1"  v-if="isLoading===false" >
+                            <b-form-group id="input-name" label="Name:" label-for="input-1" v-if="isLoading===false">
                                 <b-form-input class="bg-transparent" v-model="formProduct.name" id="input" type="text"
                                     placeholder="Enter name product" required>
                                 </b-form-input>
@@ -17,30 +19,34 @@
                         </b-col>
 
                         <b-col cols="12">
-                            <b-form-group id="input-category" label="Category:" label-for="selectCategory" v-if="isLoading===false">
+                            <b-form-group id="input-category" label="Category:" label-for="selectCategory"
+                                v-if="isLoading===false">
                                 <b-form-select class="w-100" v-model="formProduct.category" id="selectCategory"
                                     :options="allcategories" required>
                                 </b-form-select>
                             </b-form-group>
-                            <b-skeleton width="100%" type="input" v-show="isLoading" ></b-skeleton>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
                         </b-col>
 
                         <b-col cols="12" lg="6">
-                            <b-form-group id="input-price" label="Price:" label-for="input-1" >
+                            <b-form-group id="input-price" label="Price:" label-for="input-1" v-if="isLoading===false">
                                 <b-form-input class="bg-transparent" v-model="formProduct.price" id="input"
-                                    type="number" placeholder="Enter Price product" v-if="isLoading===false" required>
+                                    type="number" placeholder="Enter Price product" required>
                                 </b-form-input>
-                                <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
+
                                 <b-form-checkbox class="mt-2" id="checkbox-1" v-model="statusPricAfter"
-                                    name="checkbox-1" value="accepted" unchecked-value="not_accepted" v-if="isLoading===false"> <span
-                                        class="ms-1"> Appliquer une promotion</span>
+                                    name="checkbox-1" value="accepted" unchecked-value="not_accepted"
+                                    v-if="isLoading===false"> <span class="ms-1"> Appliquer une promotion</span>
                                 </b-form-checkbox>
+
                             </b-form-group>
+                            <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
 
                         </b-col>
 
                         <b-col cols="12" lg="6">
-                            <b-form-group id="input-quantity" label="Quantity:" label-for="input-4" v-if="isLoading===false">
+                            <b-form-group id="input-quantity" label="Quantity:" label-for="input-4"
+                                v-if="isLoading===false">
                                 <b-form-input class="bg-transparent" v-model="formProduct.quantity" id="input"
                                     type="number" placeholder="Enter Quantity product" required>
                                 </b-form-input>
@@ -49,7 +55,8 @@
                         </b-col>
 
                         <b-col cols="12" lg="12" v-if="statusPricAfter==='accepted'">
-                            <b-form-group id="input-quantity" label="Price after:" label-for="input-4" v-if="isLoading===false">
+                            <b-form-group id="input-quantity" label="Price after:" label-for="input-4"
+                                v-if="isLoading===false">
                                 <b-form-input class="bg-transparent" v-model.number="formProduct.promotion.priceAfter"
                                     id="input" type="number" placeholder="Enter Price product" required>
                                 </b-form-input>
@@ -69,7 +76,8 @@
                         <b-col cols="12">
                             <b-form-group label="Shipping" class="w-100">
                                 <b-form-select class="w-100" id="selectShipping" placeholder="Select a delivery option"
-                                    v-model="ShippingSelected" :options="optionsShipping" v-if="isLoading===false" required>
+                                    v-model="ShippingSelected" :options="optionsShipping" v-if="isLoading===false"
+                                    required>
                                 </b-form-select>
                             </b-form-group>
                             <b-skeleton width="100%" type="input" v-show="isLoading"></b-skeleton>
@@ -105,17 +113,20 @@
                                     </svg>
                                     <b-form-group id="input-quantity" label-for="input-4">
                                         <b-form-file @change="onFileChange" class="custom-file-background" plain
-                                            required></b-form-file>
+                                            :required="requiredFile">
+                                        </b-form-file>
                                     </b-form-group>
                                 </b-col>
 
+                                <!-- Show images product -->
                                 <b-col cols="8">
                                     <div class="d-flex align-items-center flex-wrap gap-3">
                                         <div id="container-img" class="w-15 position-relative"
                                             v-for="(img,index) in imageUpload" :key="img.id">
                                             <img id="imgPrd" :src="img" alt="" srcset="">
                                             <b-icon @click="removeimg(index)" variant="danger" class="position-absolute"
-                                                icon="x-circle-fill" aria-hidden="true"></b-icon>
+                                                icon="x-circle-fill" aria-hidden="true">
+                                            </b-icon>
                                         </div>
                                     </div>
                                 </b-col>
@@ -125,11 +136,11 @@
                         </b-col>
 
                         <b-col cols="12">
-                            <b-button class="w-100" variant="primary" type="submit" v-if="isLoading===false">{{ textbtnform }}</b-button>
-                            <b-skeleton width="100%" type="button" v-show="isLoading" ></b-skeleton>
+                            <b-button class="w-100" variant="primary" type="submit" v-if="isLoading===false">
+                                {{ textbtnform }}</b-button>
+                            <b-skeleton width="100%" type="button" v-show="isLoading"></b-skeleton>
                         </b-col>
                     </b-row>
-
                 </form>
             </div>
 
@@ -170,7 +181,6 @@
                 imageUpload: [],
                 forme: '',
                 textbtnform: 'Create',
-                id: '',
 
                 // Select form
                 optionsShipping: [{
@@ -193,7 +203,9 @@
                 ShippingSelected: 'Free shipping',
                 shippingValue: 0,
 
-                apiUrl: process.env.VUE_APP_API_URL
+                apiUrl: process.env.VUE_APP_API_URL,
+
+                testurl: []
 
             }
         },
@@ -214,20 +226,9 @@
             }),
 
 
-            date() {
-
-                let newdate = new Date();
-                let year = newdate.getFullYear().toString()
-                let month = (newdate.getMonth() + 1).toString()
-                let day = newdate.getDate()
-                let hour = newdate.getHours().toString()
-                let munite = newdate.getMinutes().toString()
-                let seconde = newdate.getSeconds().toString()
-
-                let date = `${year}-${month}-${day} ${hour}:${munite}:${seconde}`
-                return date
-            },
-
+            requiredFile() {
+                return this.textbtnform === 'Edit' ? false : true
+            }
 
         },
 
@@ -235,56 +236,66 @@
 
             handlForm() {
                 if (this.textbtnform === 'Edit') {
-                    // UPDATE PRODUCT
-                    const formData = new FormData()
-                    formData.append('name', this.formProduct.name)
-                    formData.append('price', this.formProduct.price)
-                    formData.append('quantity', this.formProduct.quantity)
-                    formData.append('description', this.formProduct.description)
-                    formData.append('category', this.formProduct.category)
-                    formData.append('image', this.formProduct.image)
-                    formData.append('date', this.date)
-                    this.$store.dispatch('allProducts/ac_UpdateProduct', {
-                        product: formData,
-                        id: this.id
-                    })
-                } else {
+                    
+                    if (this.formProduct.category && this.formProduct.name && this.formProduct.price &&
+                        this.formProduct.quantity && this.formProduct.imgs.length > 0) {
 
-                    // CREATE PRODUCT
-                    if (this.formProduct.category !== '' && this.formProduct.name !== '' && this.formProduct.imgs
-                        .length !== 0 && this.formProduct.price !== '' && this.formProduct.quantity !== '') {
-
-
-                        // value promotion
+                        const formData = new FormData();
                         if (this.statusPricAfter === 'accepted') {
-                            this.formProduct.promotion.percentage = Math.round(-(((this.formProduct.price - this
-                                .formProduct.promotion.priceAfter) / this.formProduct.price) * 100 - 100))
-                        } else if (this.statusPricAfter === 'not_accepted') {
-                            this.formProduct.promotion.percentage = 0
-                            this.formProduct.promotion.priceAfter = 0
+                            this.formProduct.promotion.percentage = Math.round(100 - (this.formProduct.promotion
+                                .priceAfter / this.formProduct.price) * 100);
+                        } else {
+                            this.formProduct.promotion.priceAfter = 0;
+                            this.formProduct.promotion.percentage = 0;
                         }
 
-                        // value shipping
-                        if (this.ShippingSelected === 'Free shipping') {
-                            this.formProduct.shipping = 0
-                        } else if (this.ShippingSelected === 'Paid shipping') {
-                            this.formProduct.shipping = this.shippingValue
+                        this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this
+                        .shippingValue;
+                        formData.append('category', this.formProduct.category);
+                        formData.append('name', this.formProduct.name);
+                        formData.append('price', this.formProduct.price);
+                        formData.append('quantity', this.formProduct.quantity);
+                        formData.append('description', this.formProduct.description);
+                        formData.append('shipping', this.formProduct.shipping);
+                        formData.append('promotion', JSON.stringify(this.formProduct.promotion));
+                        formData.append('visibility', this.formProduct.visibility);
+                        this.formProduct.imgs.forEach(file => formData.append('imgs', file))
+
+                        this.$store.dispatch('allProducts/ac_UpdateProduct', {
+                        product: formData ,
+                        id: this.$route.params.id
+                    })
+
+
+                    }
+
+                } else {
+                    // CREATE PRODUCT
+                    if (this.formProduct.category && this.formProduct.name && this.formProduct.price &&
+                        this.formProduct.quantity && this.formProduct.imgs.length > 0) {
+
+                        const formData = new FormData();
+                        if (this.statusPricAfter === 'accepted') {
+                            this.formProduct.promotion.percentage = Math.round(100 - (this.formProduct.promotion
+                                .priceAfter / this.formProduct.price) * 100);
+                        } else {
+                            this.formProduct.promotion.priceAfter = 0;
+                            this.formProduct.promotion.percentage = 0;
                         }
 
-                        const formData = new FormData()
-                        formData.append('category', this.formProduct.category)
-                        formData.append('name', this.formProduct.name)
-                        formData.append('price', this.formProduct.price)
-                        formData.append('quantity', this.formProduct.quantity)
-                        formData.append('description', this.formProduct.description)
-                        formData.append('shipping', this.formProduct.shipping)
-                        formData.append('promotion', JSON.stringify(this.formProduct.promotion))
-                        this.formProduct.imgs.forEach(file => {
-                            formData.append('imgs', file)
-                        })
-                        formData.append('visibility', this.formProduct.visibility)
+                        this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this
+                        .shippingValue;
+                        formData.append('category', this.formProduct.category);
+                        formData.append('name', this.formProduct.name);
+                        formData.append('price', this.formProduct.price);
+                        formData.append('quantity', this.formProduct.quantity);
+                        formData.append('description', this.formProduct.description);
+                        formData.append('shipping', this.formProduct.shipping);
+                        formData.append('promotion', JSON.stringify(this.formProduct.promotion));
+                        formData.append('visibility', this.formProduct.visibility);
+                        this.formProduct.imgs.forEach(file => formData.append('imgs', file))
 
-                        this.$store.dispatch('allProducts/ac_addProduct', formData)
+                        this.$store.dispatch('allProducts/ac_addProduct',formData)
 
                     }
 
@@ -292,26 +303,22 @@
             },
 
             onFileChange(event) {
-                const file = event.target.files[0]
+
+                const file = event.target.files[0];
+                if (!Array.isArray(this.imageUpload)) {
+                    this.imageUpload = []
+                }
+
                 if (file) {
-                    this.formProduct.imgs.push(file)
-                    this.imageUpload.push(URL.createObjectURL(file))
+                    this.formProduct.imgs.push(file);
+                    this.imageUpload.push(URL.createObjectURL(file));
                 }
             },
-
 
             removeimg(index) {
                 this.formProduct.imgs = this.formProduct.imgs.filter((_, i) => i !== index)
                 this.imageUpload.splice(index, 1)
             },
-
-            ...mapActions("allCategories", {
-                fetchCategories: 'ac_getCategories'
-            }),
-
-            ...mapActions('allProducts', {
-                fetchProducts: 'ac_getProducts'
-            }),
 
             async getprod(id) {
                 try {
@@ -323,32 +330,49 @@
                     })
                     const product = response.data.product
 
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         this.formProduct.category = product.category
-                    this.formProduct.name = product.name
-                    this.formProduct.description = product.description
-                    this.formProduct.price = product.price
-                    this.formProduct.quantity = product.quantity
-                    this.ShippingSelected = product.shipping === 0 ? 'Free shipping' : 'Paid shipping'
-                    this.shippingValue = product.shipping
-                    this.formProduct.visibility = product.visibility
-                    this.imageUpload = product.imgs
-                    if (product.promotion) {
-                        if (product.promotion.priceAfter !== 0) {
-                            this.statusPricAfter = 'accepted'
-                            this.formProduct.promotion.priceAfter = product.promotion.priceAfter
-                        } else {
-                            this.statusPricAfter = 'not_accepted'
+                        this.formProduct.name = product.name
+                        this.formProduct.description = product.description
+                        this.formProduct.price = product.price
+                        this.formProduct.quantity = product.quantity
+                        this.ShippingSelected = product.shipping === 0 ? 'Free shipping' : 'Paid shipping'
+                        this.shippingValue = product.shipping
+                        this.formProduct.visibility = product.visibility
+                        this.imageUpload = product.imgs
+                        this.convertImageUrlToFile()
+                        if (product.promotion) {
+                            if (product.promotion.priceAfter !== 0) {
+                                this.statusPricAfter = 'accepted'
+                                this.formProduct.promotion.priceAfter = product.promotion.priceAfter
+                            } else {
+                                this.statusPricAfter = 'not_accepted'
+                            }
                         }
-                    }
-                    this.isLoading=false
-                    },1000)
-
-
+                        this.isLoading = false
+                    }, 1000)
 
                 } catch (error) {
                     console.log(error)
                 }
+            },
+
+            async convertImageUrlToFile() {
+
+                for (const url in this.imageUpload) {
+                    const response = await fetch(this.imageUpload[url])
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la récupération de l\'image');
+                    }
+
+                    const blob = await response.blob()
+                    const file = new File([blob], this.imageUpload[url].split('.')[1], {
+                        type: blob.type
+                    });
+                    this.formProduct.imgs.push(file)
+                    
+                }
+
             },
 
             resetValuesForm() {
@@ -358,8 +382,15 @@
                     .ShippingSelected = 'Free shipping',
                     this.statusPricAfter = 'not_accepted', this.formProduct.visibility = true, this.imageUpload = '',
                     this.textbtnform = 'Create'
-            }
+            },
 
+            ...mapActions("allCategories", {
+                fetchCategories: 'ac_getCategories'
+            }),
+
+            ...mapActions('allProducts', {
+                fetchProducts: 'ac_getProducts'
+            }),
         },
 
         watch: {
@@ -372,23 +403,22 @@
         },
 
         mounted() {
-
             //  Fetch products and categories
             this.fetchCategories()
             this.fetchProducts()
 
             // Get product in edit
             let id = this.$route.params.id
-            console.log(typeof id)
             if (id.length > 1) {
                 this.textbtnform = 'Edit'
                 this.getprod(id)
-            }else if(id==='1'){
-                this.isLoading=false
+            } else if (id === '1') {
+                this.isLoading = false
             }
         }
     }
 </script>
+
 
 <style scoped>
     .bg-page {

@@ -44,7 +44,7 @@ const actions = {
     async ac_UpdateProduct({commit},{product,id}){
         try{
             const token=localStorage.getItem('token')
-            const response = await axios.put(`${apiUrl}/api/product/${id}`,product, {
+            const response = await axios.put(`${apiUrl}/api/product/product/${id}`,product, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
