@@ -16,7 +16,7 @@
                     @dismiss-count-down="dismissSecs">
                     <p class="mb-0"><strong>{{ textAlert }}</strong></p>
                 </b-alert>
-                <p>{{ formProduct.imgs }}</p>
+   
                 <form @submit.prevent="handlForm" ref="form">
                     <b-row class="g-4">
                         <b-col cols="12">
@@ -226,7 +226,7 @@
         computed: {
 
             ...mapState('allCategories', {
-                allcategories: state => state.categories.map(ele => {
+                allcategories: state => state.categories.filter(ele=>ele.delete===false).map(ele => {
                     const obj = new Object
                     obj.text = ele.name
                     obj.value = ele._id
