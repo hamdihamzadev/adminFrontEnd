@@ -6,7 +6,17 @@
             <div class="p-4 bg-page">
                 <h3><strong>Create new product</strong></h3>
                 <p class="text-secondary mb-5">Remplissez les détails de votre nouveau produit ci-dessous.</p>
-
+                <b-alert
+                    id="alert"
+                    class="position-absolute bottom-0 d-flex align-items-center gap-3"
+                    :show="dismissCountDown" 
+                    dismissible
+                    variant="success"
+                    @dismissed="dismissCountDown=0"
+                    @dismiss-count-down="dismissSecs">
+                    <p class="mb-0"><strong>{{ textAlert }}</strong></p>
+                </b-alert>
+                <p>{{ formProduct.imgs }}</p>
                 <form @submit.prevent="handlForm" ref="form">
                     <b-row class="g-4">
                         <b-col cols="12">
@@ -205,7 +215,10 @@
 
                 apiUrl: process.env.VUE_APP_API_URL,
 
-                testurl: []
+                dismissSecs: 2,
+                dismissCountDown: 0,
+                showDismissibleAlert: false,
+                textAlert:'Product is created with success'
 
             }
         },
@@ -234,9 +247,15 @@
 
         methods: {
 
+
+      showAlert() {
+        this.showDismissibleAlert=true
+        this.dismissCountDown = this.dismissSecs
+      },
+
             handlForm() {
                 if (this.textbtnform === 'Edit') {
-                    
+
                     if (this.formProduct.category && this.formProduct.name && this.formProduct.price &&
                         this.formProduct.quantity && this.formProduct.imgs.length > 0) {
 
@@ -250,7 +269,7 @@
                         }
 
                         this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this
-                        .shippingValue;
+                            .shippingValue;
                         formData.append('category', this.formProduct.category);
                         formData.append('name', this.formProduct.name);
                         formData.append('price', this.formProduct.price);
@@ -262,10 +281,14 @@
                         this.formProduct.imgs.forEach(file => formData.append('imgs', file))
 
                         this.$store.dispatch('allProducts/ac_UpdateProduct', {
-                        product: formData ,
-                        id: this.$route.params.id
-                    })
+                            product: formData,
+                            id: this.$route.params.id
+                        })
 
+                        // alert success
+                        this.textAlert='Product is edit with success'
+                        this.showAlert()
+                         
 
                     }
 
@@ -284,7 +307,7 @@
                         }
 
                         this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this
-                        .shippingValue;
+                            .shippingValue;
                         formData.append('category', this.formProduct.category);
                         formData.append('name', this.formProduct.name);
                         formData.append('price', this.formProduct.price);
@@ -295,7 +318,11 @@
                         formData.append('visibility', this.formProduct.visibility);
                         this.formProduct.imgs.forEach(file => formData.append('imgs', file))
 
-                        this.$store.dispatch('allProducts/ac_addProduct',formData)
+                        this.$store.dispatch('allProducts/ac_addProduct', formData)
+
+                        // toast success
+                        this.textAlert='Product is created with success'
+                        this.showAlert()
 
                     }
 
@@ -370,18 +397,15 @@
                         type: blob.type
                     });
                     this.formProduct.imgs.push(file)
-                    
+
                 }
 
             },
 
             resetValuesForm() {
-                this.formProduct.name = '', this.formProduct.category = '', this.formProduct.price = '', this
-                    .formProduct.quantity = '',
-                    this.formProduct.promotion.priceAfter = '', this.formProduct.description = '', this
-                    .ShippingSelected = 'Free shipping',
-                    this.statusPricAfter = 'not_accepted', this.formProduct.visibility = true, this.imageUpload = '',
-                    this.textbtnform = 'Create'
+                this.formProduct.name = '', this.formProduct.category = '', this.formProduct.price = '', this.formProduct.quantity = '',
+                this.formProduct.promotion.priceAfter = '', this.formProduct.description = '', this.ShippingSelected = 'Free shipping',
+                this.statusPricAfter = 'not_accepted', this.formProduct.visibility = true, this.imageUpload = '', this.textbtnform = 'Create'
             },
 
             ...mapActions("allCategories", {
@@ -487,6 +511,21 @@
 
     #input::placeholder {
         color: var(--couleur-primaire-2);
+    }
+
+
+     .alert .close{
+        height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #a6a4a4;
+    border-radius: 4px;
+    }
+
+    #alert{
+        right: 20px;
     }
 
 
