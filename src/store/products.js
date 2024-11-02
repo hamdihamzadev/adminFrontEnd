@@ -78,20 +78,6 @@ const actions = {
         }
     },
 
-    async ac_deleteProduct({commit},id){
-        try{
-            const token = localStorage.getItem('token')
-            await axios.put(`${apiUrl}/api/deleteProduct/${id}`,null, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            commit('m_deleteProduct',id)
-        }
-        catch(error){
-            console.log('error delete prd is :', error)
-        }
-    },
 
     async ac_updateQuantityProduct({commit},{id,quantity}){
         try{

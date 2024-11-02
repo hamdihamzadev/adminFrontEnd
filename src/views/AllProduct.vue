@@ -31,8 +31,10 @@
                 </template>
 
                 <template #cell(Action)="dataAction">
-                    <b-icon @click="deleteProduct(dataAction.item.id)" class="me-2 cursor" icon="trash-fill" aria-hidden="true"></b-icon>
-                    <b-icon @click="editProduct(dataAction.item.id)" class="cursor" icon="pencil-fill" aria-hidden="true"></b-icon>
+                    <b-icon @click="deleteProduct(dataAction.item.id)" class="me-2 cursor" icon="trash-fill"
+                        aria-hidden="true"></b-icon>
+                    <b-icon @click="editProduct(dataAction.item.id)" class="cursor" icon="pencil-fill"
+                        aria-hidden="true"></b-icon>
                 </template>
 
 
@@ -127,7 +129,7 @@
             }),
 
             ...mapState('allProducts', {
-                Products: state => state.Products
+                Products: state => state.Products.filter(ele=>ele.delete===false)
             }),
 
             allProducts() {
@@ -165,6 +167,19 @@
                 this.$router.push(`/createproduct/${id}`)
             },
 
+            deleteProduct(id) {
+
+                const userConfirmed = confirm("Do you really want to delete this product ?");
+                if (userConfirmed) {
+                    this.$store.dispatch('allProducts/ac_UpdateProduct', {
+                        product:{delete:true},
+                        id
+                    })
+                } else {
+                    console.log("Action annulée.");
+                }
+            },
+
             selectBox(event, item) {
 
                 if (event === 'accepted') {
@@ -178,19 +193,19 @@
                 }
             },
 
-            handleActionChange(ev, item) {
-                const value = ev.target.value
-                if (value === "edit") {
-                    this.$refs.componentAddprd.showmodalEdit(item)
-                } else if (value === "delete") {
-                    const userConfirmed = window.confirm("Do you really want to delete this product ?")
-                    if (userConfirmed) {
-                        this.$store.dispatch('allProducts/ac_deleteProduct', item.id)
-                    }
+            // handleActionChange(ev, item) {
+            //     const value = ev.target.value
+            //     if (value === "edit") {
+            //         this.$refs.componentAddprd.showmodalEdit(item)
+            //     } else if (value === "delete") {
+            //         const userConfirmed = window.confirm("Do you really want to delete this product ?")
+            //         if (userConfirmed) {
+            //             this.$store.dispatch('allProducts/ac_deleteProduct', item.id)
+            //         }
 
-                }
+            //     }
 
-            },
+            // },
 
 
             ...mapActions('allProducts', {
