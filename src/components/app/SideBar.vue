@@ -119,8 +119,8 @@
             collapseId: 'collapseCustomers',
             arrowCollapse: true,
             childPath: [{
-                path: '/Customers/AddCustomer',
-                text: 'Add Customer'
+                path: '/Customers/CreateCustomer',
+                text: 'Create Customer'
               },
               {
                 path: '/Customers/ListCustomers',

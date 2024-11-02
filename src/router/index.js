@@ -6,6 +6,7 @@ import CategoryViews from '../views/CategoryViews.vue'
 import AllProducts from '../views/AllProduct.vue'
 import CreateProduct from '../views/CreateProduct.vue'
 import DashBord from '../views/DashBord.vue'
+import AddCustomer from "../views/customers/CreateCustomer.vue"
 // import NewOrders from '../views/NewOrders.vue'
 // import ConfirmedOredrs from '../views/ConfirmedOrders.vue'
 // import ShippedOrder from '../views/ShippedOrder.vue'
@@ -23,7 +24,6 @@ import DashBord from '../views/DashBord.vue'
 
 
 // import AddOrder from '../views/AddOrder.vue'
-// import AddCustomer from "../views/customers/AddCustomers.vue"
 // import TopCustomer from '../views/customers/TopCustomer.vue'
 // import ProfilUser from '../views/ProfilUser.vue'
 // import ListCustomers from '../views/customers/ListCustomers.vue'
@@ -43,6 +43,7 @@ const routes = [
   { path: '/allproducts', component: AllProducts},
   { path: '/createproduct/:id', component: CreateProduct},
   { path: '/DashBord', component: DashBord },
+  { path: '/Customers/CreateCustomer', component: AddCustomer},
   // { path: '/Orders/NewOrders', component: NewOrders },
   // { path: '/Orders/Confirmed', component: ConfirmedOredrs},
   // { path: '/Orders/Shipped', component: ShippedOrder},
@@ -72,7 +73,6 @@ const routes = [
   // },  
 
   // { path: '/Orders/Addorder', component: AddOrder},
-  // { path: '/Customers/AddCustomer', component: AddCustomer},
   // { path: '/Customers/TopCustomer', component: TopCustomer},
   // { path: '/Customers/ListCustomers', component: ListCustomers},
   // { path: '/Profil', component: ProfilUser},

@@ -11,9 +11,6 @@ const mutations = {
         state.customers = customers
     },
 
-    m_addCustomer(state,newCustomer){
-        state.customers.push(newCustomer)
-    },
 
     m_updatCustomer(state,{updateCustomer,id}){
         state.customers=state.customers.map(ele => ele._id === id ? updateCustomer : ele )

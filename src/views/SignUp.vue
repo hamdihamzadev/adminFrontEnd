@@ -19,7 +19,6 @@
                 <b-button class="w-100 mt-3"  variant="success"><router-link to="/Login" tag="li" class="list-unstyled" ><a href="" class="text-white text-decoration-none" >Sign in</a></router-link></b-button>
             </b-modal>
 
-
             <b-form @submit.prevent="signup" id="form-signup">
 
                 <div class="row">
