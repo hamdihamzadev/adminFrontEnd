@@ -11,7 +11,6 @@ const mutations = {
         state.customers = customers
     },
 
-
     m_updatCustomer(state,{updateCustomer,id}){
         state.customers=state.customers.map(ele => ele._id === id ? updateCustomer : ele )
     },
@@ -46,7 +45,7 @@ const actions = {
     }) {
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.get(`${apiUrl}/api/customers`, {
+            const response = await axios.get(`${apiUrl}/api/customers/all`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
