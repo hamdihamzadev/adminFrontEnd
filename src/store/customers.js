@@ -75,20 +75,22 @@ const actions = {
         }
     },
 
-    async ac_deleteCustomer({commit},id) {
-        try {
-            const token = localStorage.getItem('token')
-            await axios.put(`${apiUrl}/api/deletCustomer/${id}`,null,{
-                headers: {
-                    Authorization: `Bearer ${token}`
+
+    async ac_blockCustomer({commit},{block,id}){
+        try{
+            const token=localStorage.getItem('token')
+            const response=await axios.put(`${apiUrl}/api/customers/block/${id}`,block,{
+                headers:{
+                    Authorization:`Bearer ${token}`
                 }
             })
-            commit('m_deleteCustomer',id)
-        } catch (error) {
-            console.log('error the delete customer is :', error)
+            const updateCustomer=response.data.customerUpdate
+            commit('m_updatCustomer',{updateCustomer,id})
         }
-    },
-
+        catch(error){
+            console.log(`error block customer is ${error}`)
+        }
+    }
 
 }
 

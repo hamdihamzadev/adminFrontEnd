@@ -2,7 +2,7 @@
     <section class="listecustomers">
         <b-container fluid>
             <h1 class="text-center fw-bolder mb-sm-4">List customers</h1>
-  
+
             <b-row class="align-items-center justify-content-between">
                 <!----- search category ----->
                 <b-col sm="6">
@@ -22,14 +22,21 @@
 
             </b-row>
             <!----- TABLE PRODUCT ----->
-            <b-table responsive striped hover :items="Allcustomers" :filter="filter" :fields="fields" class="mt-2" sort-icon-left
-                id="my-table">
+            <b-table responsive striped hover :items="Allcustomers" :filter="filter" :fields="fields" class="mt-2"
+                sort-icon-left id="my-table">
+
+                <template #cell(Block)="data">
+                    <select :ref="`select${data.index}`" class="form-select" aria-label="Select an action"
+                        @change="changeBlock($event,data.item.id)">
+                        <option :selected="data.item.Block==='Block'" value="Block">Block</option>
+                        <option :selected="data.item.Block==='Unblock'" value="unblock">unblock</option>
+                    </select>
+                </template>
+
                 <template #cell(Action)="data">
-                    <b-icon @click="deleteProduct(data.item.id)" class="me-2 cursor" icon="trash-fill"
-                        aria-hidden="true">
+                    <b-icon @click="deleteCustomer(data.item.id)" class="me-3 cursor" icon="trash" aria-hidden="true">
                     </b-icon>
-                    <b-icon @click="editProduct(data.item.id)" class="cursor" icon="pencil-fill"
-                        aria-hidden="true">
+                    <b-icon @click="editCustomer(data.item.id)" class="me-3 cursor" icon="pencil" aria-hidden="true">
                     </b-icon>
                 </template>
 
@@ -48,11 +55,11 @@
 
 <script>
     import axios from 'axios';
-import {
+    import {
         mapActions,
         mapState
     } from 'vuex';
-axios
+    axios
     export default {
         name: 'ListCustomers',
         data() {
@@ -82,7 +89,7 @@ axios
                         sortable: false
                     },
                     {
-                        key: 'Date',
+                        key: 'Block',
                         sortable: false
                     },
                     {
@@ -94,8 +101,7 @@ axios
 
                 idCustomer: '',
                 filter: null,
-                cust:[],
-                apiUrl:process.env.VUE_APP_API_URL
+                apiUrl: process.env.VUE_APP_API_URL
             }
         },
 
@@ -111,7 +117,8 @@ axios
                         obj.Contry = el.contry
                         obj.City = el.city
                         obj.Email = el.email
-                        obj.Date = el.date
+                        obj.Block = el.block === true ? 'Block' : 'Unblock'
+                        obj.id = el._id
                         return obj
                     })
             })
@@ -119,17 +126,38 @@ axios
 
         methods: {
 
-
             addCustomer() {
                 this.$router.push('/Customers/CreateCustomer')
             },
 
+            changeBlock(ev,id) {
+                const value = ev.target.value
+                const userConfirmed = confirm("Do you really want to block this customer ?");
+
+                if (userConfirmed) {
+                    if (value === 'Block') {
+                        this.$store.dispatch('allCustomers/ac_blockCustomer', {
+                            block: { block: true },
+                            id
+                        })
+                    }else{
+                        this.$store.dispatch('allCustomers/ac_blockCustomer', {
+                            block: { block: false },
+                            id
+                        })
+                    }
+                }
+                else {
+                    console.log("Action annulée.");
+                }
+            },
 
             ...mapActions('allCustomers', {
                 fetchCustomers: 'ac_getCustomers'
             }),
 
         },
+
         mounted() {
             this.fetchCustomers()
         }
