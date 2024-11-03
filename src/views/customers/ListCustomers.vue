@@ -136,19 +136,30 @@
 
                 if (userConfirmed) {
                     if (value === 'Block') {
-                        this.$store.dispatch('allCustomers/ac_blockCustomer', {
-                            block: { block: true },
+                        this.$store.dispatch('allCustomers/ac_blockAndDeleteCustomer', {
+                            update: { block: true },
                             id
                         })
+        
                     }else{
-                        this.$store.dispatch('allCustomers/ac_blockCustomer', {
-                            block: { block: false },
+                        this.$store.dispatch('allCustomers/ac_blockAndDeleteCustomer', {
+                            update: { block: false },
                             id
                         })
                     }
                 }
                 else {
                     console.log("Action annulée.");
+                }
+            },
+
+            deleteCustomer(id){
+                const userConfirmed = confirm("Do you really want to delete this customer ?")
+                if(userConfirmed){
+                    this.$store.dispatch('allCustomers/ac_blockAndDeleteCustomer',{
+                        update: { delete: true },
+                        id
+                    })
                 }
             },
 
@@ -160,6 +171,8 @@
 
         mounted() {
             this.fetchCustomers()
+            const url = window.location.pathname;
+            console.log(url)
         }
     }
 </script>

@@ -75,11 +75,10 @@ const actions = {
         }
     },
 
-
-    async ac_blockCustomer({commit},{block,id}){
+    async ac_blockAndDeleteCustomer({commit},{update,id}){
         try{
             const token=localStorage.getItem('token')
-            const response=await axios.put(`${apiUrl}/api/customers/block/${id}`,block,{
+            const response=await axios.put(`${apiUrl}/api/customers/updateByAdmin/${id}`,update,{
                 headers:{
                     Authorization:`Bearer ${token}`
                 }
