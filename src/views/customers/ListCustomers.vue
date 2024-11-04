@@ -40,6 +40,11 @@
                     </b-icon>
                 </template>
 
+                <template #cell(Status)="data">
+                   <span v-if="data.item.Status==='Inactive'" class="bg-dark-subtle text-black rounded p-2 " >{{ data.item.Status }}</span>
+                   <span v-if="data.item.Status==='Active'"   class="bg-black text-white rounded p-2 " >{{ data.item.Status }}</span>
+                </template>
+
             </b-table>
 
             <!-- <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="my-table">
@@ -89,6 +94,10 @@
                         sortable: false
                     },
                     {
+                        key: 'Status',
+                        sortable: false
+                    },
+                    {
                         key: 'Block',
                         sortable: false
                     },
@@ -117,6 +126,7 @@
                         obj.Contry = el.contry
                         obj.City = el.city
                         obj.Email = el.email
+                        obj.Status= el.status===false?'Inactive':'Active'
                         obj.Block = el.block === true ? 'Block' : 'Unblock'
                         obj.id = el._id
                         return obj

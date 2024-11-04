@@ -133,11 +133,12 @@
             async signup() {
                 let token=localStorage.getItem('token')
                 try {
-                    const response = await axios.post(`${this.apiUrl}/api/customer/signup`, this.formCustomer,{
+                    const response = await axios.post(`${this.apiUrl}/api/customers/signup`, this.formCustomer,{
                         headers:{
                            Authorization: `Bearer ${token}`
                         }
                     })
+                    console.log(response.data.message)
                     response.data.message === 'customer is created with successful' ? this.ErrorEmail = false : null
                 } catch (error) {
                     if (error.response.data.message && error.response.data.message === 'email already used') {
@@ -150,7 +151,6 @@
 
             // BTN CREATE ACCOUNT
             async createAccount() {
-                console.log('tes')
                 if (
                     this.formCustomer.firstName !== '' && 
                     this.formCustomer.lastName !== '' && 
