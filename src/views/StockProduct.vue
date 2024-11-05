@@ -55,15 +55,32 @@
             <!-- MODAL STOCK -->
             <b-modal id="modal-Stock" ref="modal" title="Add stock" @ok="addOrsubQuantity" :ok-title="BtnModal">
                 <form ref="form">
-                    <b-form-group :label="textmodal" label-for="name-input" :invalid-feedback="msgInvalidInput"
-                        :state="stateInputStock">
-                        <b-form-input id="name-input" v-model="quantityModal" :state="stateInputStock" type="number"
-                            required>
-                       </b-form-input>
-                       
+                    <b-form-group 
+                       :label="textmodal" 
+                       label-for="name-input" 
+                       :invalid-feedback="msgInvalidInput"
+                       :state="stateInputStock">
+                    <b-form-input 
+                       id="name-input" 
+                       v-model="quantityModal" 
+                       :state="stateInputStock" 
+                       type="number"
+                       required>
+                    </b-form-input>
                     </b-form-group>
                 </form>
             </b-modal>
+
+            <!-- alert sucess -->
+            <b-alert
+                id="alert"
+                class="position-absolute bottom-0 d-flex align-items-center gap-3"
+                :show="dismissCountDown" 
+                dismissible
+                variant="success"
+                @dismiss-count-down="dismissSecs">
+                <p class="mb-0"><strong>{{ textAlert }}</strong></p>
+            </b-alert>
 
         </b-container>
     </div>
@@ -111,7 +128,6 @@
                 indexPrdStock: '',
                 Send: 'Add Stock',
                 ActionDropdown: '',
-                ProductsFromDataBase: '',
                 textmodal: '',
                 BtnModal: '',
                 productUpdatedQuantity: {
@@ -119,6 +135,12 @@
                     quantity: ''
                 },
                 quantityModal: '',
+
+                // Alert
+                dismissSecs: 3,
+                dismissCountDown: 0,
+                showDismissibleAlert: false,
+                textAlert:'The inventory has been changed'
             }
         },
 
@@ -126,14 +148,14 @@
 
             // STORE ALL PRODUCTS
             ...mapState('allProducts', {
-                allProducts: state => state.Products.filter(ele=> ele.isDeleted===false )
+                allProducts: state => state.Products.filter(ele=> ele.delete===false )
             }),
 
             createobjProducts() {
                 let products = this.allProducts.map(ele => {
                     const obj = new Object
                     obj.name = ele.name
-                    obj.image = ele.image
+                    obj.image = ele.imgs[0]
                     obj.id = ele._id
                     obj.quantity = ele.quantity
                     obj.variant = this.getProgressVariant(ele.quantity)
@@ -181,6 +203,11 @@
 
         methods: {
 
+            showAlert() {
+                this.showDismissibleAlert=true
+                this.dismissCountDown = this.dismissSecs
+            },
+
             getProgressVariant(valueProgres) {
                 if (valueProgres >= 90) {
                     return 'success';
@@ -195,7 +222,7 @@
 
             showModalAddStock(id, quantity) {
                 this.$bvModal.show('modal-Stock')
-                this.textmodal = 'Please add number quantity to your prdouct'
+                this.textmodal = 'Add number quantity to product'
                 this.BtnModal = "Add"
                 this.productUpdatedQuantity.id = id
                 this.productUpdatedQuantity.quantity = quantity
@@ -203,7 +230,7 @@
 
             showModalSubsStock(id, quantity) {
                 this.$bvModal.show('modal-Stock')
-                this.textmodal = 'Please substract number quantity to your prdouct'
+                this.textmodal = 'Substract number quantity to prdouct'
                 this.BtnModal = 'Substract'
                 this.productUpdatedQuantity.id = id
                 this.productUpdatedQuantity.quantity = quantity
@@ -211,15 +238,15 @@
 
             addOrsubQuantity() {
                 if (this.BtnModal === "Add") {
-                    this.productUpdatedQuantity.quantity = parseInt(this.productUpdatedQuantity.quantity) + parseInt(
-                        this.quantityModal)
-                        this.$store.dispatch('allProducts/ac_updateQuantityProduct',{id:this.productUpdatedQuantity.id,quantity:this.productUpdatedQuantity.quantity})
-                        window.location.reload()
+                    this.productUpdatedQuantity.quantity = parseInt(this.productUpdatedQuantity.quantity) + parseInt(this.quantityModal)
+                        this.$store.dispatch('allProducts/ac_UpdateProduct',{product:{quantity:this.productUpdatedQuantity.quantity},id:this.productUpdatedQuantity.id})
+                        setTimeout(()=>this.showAlert(),500)
+                        this.quantityModal=''
                 } else if (this.BtnModal === "Substract") {
-                    this.productUpdatedQuantity.quantity = parseInt(this.productUpdatedQuantity.quantity) - parseInt(
-                        this.quantityModal)
-                        this.$store.dispatch('allProducts/ac_updateQuantityProduct',{id:this.productUpdatedQuantity.id,quantity:this.productUpdatedQuantity.quantity})
-                        window.location.reload()
+                    this.productUpdatedQuantity.quantity = parseInt(this.productUpdatedQuantity.quantity) - parseInt(this.quantityModal)
+                        this.$store.dispatch('allProducts/ac_UpdateProduct',{product:{quantity:this.productUpdatedQuantity.quantity},id:this.productUpdatedQuantity.id})
+                        setTimeout(()=>this.showAlert(),500)
+                        this.quantityModal=''
                 }
             },
 
@@ -234,11 +261,9 @@
                 })
             },
 
-
-
             ...mapActions('allProducts', {
                 fetchProducts: 'ac_getProducts'
-            })
+            }),
         },
 
         mounted() {
@@ -333,6 +358,11 @@
         margin: 0px;
         padding: 0px;
     }
+
+    #alert{
+        right: 20px;
+    }
+
 
 
 

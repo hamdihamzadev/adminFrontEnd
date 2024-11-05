@@ -54,10 +54,7 @@
             iconLink: 'bx bxs-cart-alt',
             collapseId: 'collapseOrders',
             arrowCollapse: true,
-            childPath: [{
-                path: '/Orders/Addorder',
-                text: 'Add Order'
-              },
+            childPath: [
               {
                 path: '/Orders/NewOrders',
                 text: 'New Orders'

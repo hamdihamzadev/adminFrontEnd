@@ -181,8 +181,7 @@
 
         mounted() {
             this.fetchCustomers()
-            const url = window.location.pathname;
-            console.log(url)
+
         }
     }
 </script>

@@ -8,13 +8,13 @@ import CreateProduct from '../views/CreateProduct.vue'
 import DashBord from '../views/DashBord.vue'
 import AddCustomer from "../views/customers/CreateCustomer.vue"
 import ListCustomers from '../views/customers/ListCustomers.vue'
+import StockProduct from '../views/StockProduct.vue'
 // import NewOrders from '../views/NewOrders.vue'
 // import ConfirmedOredrs from '../views/ConfirmedOrders.vue'
 // import ShippedOrder from '../views/ShippedOrder.vue'
 // import DeliVerd from '../views/DeliVerd.vue'
 // import ReTurn from '../views/ReTurn.vue'
 // import CancelledOrders from '../views/Cancelled.vue'
-// import StockProduct from '../views/StockProduct.vue'
 // import RegistrationConfirmation from "@/views/RegistrationConfirmation.vue";
 
 
@@ -24,7 +24,7 @@ import ListCustomers from '../views/customers/ListCustomers.vue'
 // import TopCity from '@/views/top/TopCity.vue'
 
 
-// import AddOrder from '../views/AddOrder.vue'
+
 // import TopCustomer from '../views/customers/TopCustomer.vue'
 // import ProfilUser from '../views/ProfilUser.vue'
 // import ConversionRate from '../views/ConversionRate.vue'
@@ -45,13 +45,14 @@ const routes = [
   { path: '/DashBord', component: DashBord },
   { path: '/Customers/CreateCustomer', component: AddCustomer},
   { path: '/Customers/ListCustomers', component: ListCustomers},
+  { path: '/Stock', component: StockProduct},
   // { path: '/Orders/NewOrders', component: NewOrders },
   // { path: '/Orders/Confirmed', component: ConfirmedOredrs},
   // { path: '/Orders/Shipped', component: ShippedOrder},
   // { path: '/Orders/Deliverd', component: DeliVerd},
   // { path: '/Orders/Return', component: ReTurn},
   // { path: '/Orders/Cancelled', component: CancelledOrders},
-  // { path: '/Stock', component: StockProduct},
+
   // { path: '/RegistrationConfirmation', component: RegistrationConfirmation},
   
   // {
@@ -73,7 +74,6 @@ const routes = [
   //   ]
   // },  
 
-  // { path: '/Orders/Addorder', component: AddOrder},
   // { path: '/Customers/TopCustomer', component: TopCustomer},
   // { path: '/Profil', component: ProfilUser},
   // { path: '/conversion', component: ConversionRate},
