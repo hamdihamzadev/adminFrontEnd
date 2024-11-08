@@ -104,6 +104,7 @@
         data() {
             return {
                 formCustomer: {
+                    nameStore:'',
                     firstName: '',
                     lastName: '',
                     phone: '',
@@ -132,13 +133,14 @@
 
             async signup() {
                 let token=localStorage.getItem('token')
+                this.formCustomer.nameStore=localStorage.getItem('nameStore')
+
                 try {
                     const response = await axios.post(`${this.apiUrl}/api/customers/signup`, this.formCustomer,{
                         headers:{
                            Authorization: `Bearer ${token}`
                         }
                     })
-                    console.log(response.data.message)
                     response.data.message === 'customer is created with successful' ? this.ErrorEmail = false : null
                 } catch (error) {
                     if (error.response.data.message && error.response.data.message === 'email already used') {

@@ -131,6 +131,11 @@
                         obj.id = el._id
                         return obj
                     })
+            }),
+            ...mapState('allCustomers', {
+                customers: state => state.customers
+                    .filter(ele => ele.delete === false)
+              
             })
         },
 

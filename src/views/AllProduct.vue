@@ -3,7 +3,6 @@
         <b-container fluid>
             <div class="row">
                 <h1 class="col text-center fw-bolder">All products</h1>
-                <p>{{ Products }}</p>
             </div>
             <div class="d-flex justify-content-between mt-5 flex-column flex-md-row gap-3">
                 <!----- SEARCH INPUT ----->
