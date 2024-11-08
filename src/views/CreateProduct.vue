@@ -268,8 +268,7 @@
                             this.formProduct.promotion.percentage = 0;
                         }
 
-                        this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this
-                            .shippingValue;
+                        this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this.shippingValue;
                         formData.append('category', this.formProduct.category);
                         formData.append('name', this.formProduct.name);
                         formData.append('price', this.formProduct.price);
@@ -306,9 +305,11 @@
                             this.formProduct.promotion.percentage = 0;
                         }
 
-                        this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this
-                            .shippingValue;
+                        this.formProduct.shipping = (this.ShippingSelected === 'Free shipping') ? 0 : this.shippingValue;
+                        const nameStore=localStorage.getItem('nameStore')
+
                         formData.append('category', this.formProduct.category);
+                        formData.append('nameStore', nameStore)
                         formData.append('name', this.formProduct.name);
                         formData.append('price', this.formProduct.price);
                         formData.append('quantity', this.formProduct.quantity);

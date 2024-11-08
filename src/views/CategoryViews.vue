@@ -258,7 +258,9 @@
                         this.showErrorImg = false
 
                         const formData = new FormData()
+                        const nameStore=localStorage.getItem('nameStore')
                         formData.append('name', this.category.name)
+                        formData.append('nameStore', nameStore)
                         formData.append('img', this.category.image)
                         formData.append('visibility', this.category.visibility)
 

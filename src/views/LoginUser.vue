@@ -71,9 +71,10 @@
 
           if (this.formLogin.email !== '' || this.formLogin.password !== '') {
             const response = await axios.post(`${this.apiUrl}/api/admin/login`,this.formLogin)
-            const token = response.data.token
-            if (token) {
-              localStorage.setItem('token',token)
+            const data = response.data
+            if (data) {
+              localStorage.setItem('token',data.token)
+              localStorage.setItem('nameStore',data.nameStore)
               this.errorEmail.show = true
               this.errorPassword.show = true
               this.$router.push('/DashBord')
