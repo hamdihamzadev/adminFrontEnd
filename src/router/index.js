@@ -9,6 +9,7 @@ import DashBord from '../views/DashBord.vue'
 import AddCustomer from "../views/customers/CreateCustomer.vue"
 import ListCustomers from '../views/customers/ListCustomers.vue'
 import StockProduct from '../views/StockProduct.vue'
+import BlogCategories from '../views/BlogCategories.vue'
 // import NewOrders from '../views/NewOrders.vue'
 // import ConfirmedOredrs from '../views/ConfirmedOrders.vue'
 // import ShippedOrder from '../views/ShippedOrder.vue'
@@ -46,6 +47,7 @@ const routes = [
   { path: '/Customers/CreateCustomer', component: AddCustomer},
   { path: '/Customers/ListCustomers', component: ListCustomers},
   { path: '/Stock', component: StockProduct},
+  { path: '/BlogCategories', component: BlogCategories},
   // { path: '/Orders/NewOrders', component: NewOrders },
   // { path: '/Orders/Confirmed', component: ConfirmedOredrs},
   // { path: '/Orders/Shipped', component: ShippedOrder},

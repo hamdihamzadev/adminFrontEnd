@@ -139,6 +139,13 @@
           },
 
           {
+            path: '/BlogCategories',
+            text: 'Blog Categories',
+            iconLink: 'bx bx-notepad'
+
+          },
+
+          {
             text: 'Statistics',
             iconLink: 'bx bxs-bar-chart-alt-2',
             collapseId: 'collapseStatistics',
