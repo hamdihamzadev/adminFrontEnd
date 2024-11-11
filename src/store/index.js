@@ -8,6 +8,7 @@ import allCategories from '../store/categories'
 import allCustomers from '../store/customers'
 import conversion from './conversion';
 import blogcategories from './blogcategories';
+import blog from './blog';
 
 
 Vue.use(Vuex);
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     allCategories,
     allCustomers,
     conversion,
-    blogcategories
+    blogcategories,
+    blog
   }
 });

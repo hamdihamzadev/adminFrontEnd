@@ -135,14 +135,28 @@
             path: '/Stock',
             text: 'Stock',
             iconLink: 'bx bxs-doughnut-chart'
-
           },
 
           {
             path: '/BlogCategories',
             text: 'Blog Categories',
             iconLink: 'bx bx-notepad'
+          },
 
+          {
+            text: 'Blogs',
+            iconLink: 'bx bxs-comment-edit',
+            collapseId: 'collapseBlog',
+            arrowCollapse: true,
+            childPath: [{
+                path: '/createblog/1',
+                text: 'Create blog'
+              },
+              {
+                path: '/allblogs',
+                text: 'All blogs'
+              },
+            ]
           },
 
           {

@@ -226,7 +226,9 @@
         computed: {
 
             ...mapState('allCategories', {
-                allcategories: state => state.categories.filter(ele=>ele.delete===false).map(ele => {
+                allcategories: state => state.categories
+                .filter(ele=>ele.delete===false)
+                .map(ele => {
                     const obj = new Object
                     obj.text = ele.name
                     obj.value = ele._id
