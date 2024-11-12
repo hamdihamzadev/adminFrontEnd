@@ -191,21 +191,6 @@
                 }
             },
 
-            // handleActionChange(ev, item) {
-            //     const value = ev.target.value
-            //     if (value === "edit") {
-            //         this.$refs.componentAddprd.showmodalEdit(item)
-            //     } else if (value === "delete") {
-            //         const userConfirmed = window.confirm("Do you really want to delete this product ?")
-            //         if (userConfirmed) {
-            //             this.$store.dispatch('allProducts/ac_deleteProduct', item.id)
-            //         }
-
-            //     }
-
-            // },
-
-
             ...mapActions('allProducts', {
                 fetchProducts: 'ac_getProducts'
             }),

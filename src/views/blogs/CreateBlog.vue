@@ -203,6 +203,7 @@
                         formBlog,
                         id:this.$route.params.id
                     })
+                    
                 }
             },
 

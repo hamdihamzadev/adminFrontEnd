@@ -134,7 +134,20 @@
 
             ...mapActions("blogcategories", {
                 fetchCategoriesBlogs: 'ac_getCategories'
-            })
+            }),
+
+            deleteBlog(id){
+                const userConfirmed = window.confirm("Do you really want to delete this category ?");
+                const formBlog = {
+                        delete: true
+                }
+                if(userConfirmed){
+                    this.$store.dispatch('blog/ac_editBlog',{
+                        formBlog,
+                        id
+                    })  
+                }
+            }
 
         },
 
