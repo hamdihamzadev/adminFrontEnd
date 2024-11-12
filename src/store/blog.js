@@ -12,6 +12,10 @@ const mutations = {
 
     m_getBlogs(state,blogs){
         state.blogs=blogs
+    },
+
+    m_editBlog(state,{updateBlog,id}){
+        state.blogs = state.blogs.map(blog => blog._id===id ? updateBlog : blog )
     }
 }
 
@@ -52,9 +56,25 @@ const actions = {
         catch(error){
             console.log(error)
         }
+    },
+
+    async ac_editBlog({commit},{formBlog,id}){
+        try{
+            const token=localStorage.getItem('token')
+            const response = await axios.put(`${apiUrl}/api/blog/updateblog/${id}`,formBlog,{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                }
+            })
+            const updateBlog=response.data.updateBlog
+            commit('m_editBlog',{updateBlog,id})
+        }
+        catch(error){
+            console.log(error)
+        }
     }
 }
-
 
 
 export default {

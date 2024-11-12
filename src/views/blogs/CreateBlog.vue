@@ -110,10 +110,13 @@
 </template>
 
 <script>
+    import axios from 'axios';
     import {
         mapState,
         mapActions
     } from 'vuex';
+
+
 
 
     export default {
@@ -123,9 +126,9 @@
             return {
                 isLoading: false,
                 formBlog: {
-                    title: 'hamza',
-                    subtitle: 'hamdi',
-                    description: 'hello',
+                    title: '',
+                    subtitle: '',
+                    description: '',
                     img: '',
                     category: '',
                     visibilty: true
@@ -141,6 +144,7 @@
 
                 textbtnform: 'Create',
                 imgShow: '',
+                apiUrl: process.env.VUE_APP_API_URL
 
             }
         },
@@ -185,7 +189,58 @@
                     formBlog.append('visibilty', this.formBlog.visibilty)
 
                     this.$store.dispatch('blog/ac_addBlog', formBlog)
+                } else {
+                    const formBlog = new FormData()
+                    formBlog.append('title', this.formBlog.title)
+                    formBlog.append('subtitle', this.formBlog.subtitle)
+                    formBlog.append('description', this.formBlog.description)
+                    if (this.formBlog.img) {
+                        formBlog.append('img', this.formBlog.img);
+                    }
+                    formBlog.append('category', this.formBlog.category)
+                    formBlog.append('visibilty', this.formBlog.visibilty)
+                    this.$store.dispatch('blog/ac_editBlog',{
+                        formBlog,
+                        id:this.$route.params.id
+                    })
                 }
+            },
+
+            async getBlog(id) {
+                const token = localStorage.getItem('token')
+                try {
+                    const response = await axios.get(`${this.apiUrl}/api/blog/getblog/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    const blog = response.data.blog
+                    this.formBlog.title = blog.title
+                    this.formBlog.subtitle = blog.subtitle
+                    this.formBlog.description = blog.description
+                    this.formBlog.category = blog.category
+                    this.formBlog.visibilty = blog.visibilty
+                    this.imgShow = blog.img
+                    this.convertImageUrlToFile()
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+
+            async convertImageUrlToFile() {
+
+                const response = await fetch(this.imgShow)
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération de l\'image');
+                }
+
+                const blob = await response.blob()
+                const file = new File([blob], this.imgShow.split('.')[1], {
+                    type: blob.type
+                });
+
+                this.formBlog.img = file
             },
 
             ...mapActions("blogcategories", {
@@ -196,6 +251,13 @@
 
         mounted() {
             this.fetchCategories()
+
+            // Get product in edit
+            let id = this.$route.params.id
+            if (id.length > 1) {
+                this.textbtnform = 'Edit'
+                this.getBlog(id)
+            }
         }
     }
 </script>

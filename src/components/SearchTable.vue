@@ -53,6 +53,8 @@
 #filter-input{
     width: 70%;
     border-radius: 0.375rem 0 0 0.375rem;
+    background-color: transparent;
+    border-width: 1px;
 }
 #filter-input::placeholder{
     color: var( --couleur-primaire-2);
