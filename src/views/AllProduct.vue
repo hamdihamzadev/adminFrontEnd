@@ -140,10 +140,8 @@
                         obj.Name = ele.name
                         obj.Price = ele.price
                         obj.Category = {
-                            id: this.allcategories.find(ctg => ctg.id === ele.category) ? this.allcategories
-                                .find(ctg => ctg.id === ele.category).id : '',
-                            name: this.allcategories.find(ctg => ctg.id === ele.category) ? this.allcategories
-                                .find(ctg => ctg.id === ele.category).name : ''
+                            id: this.allcategories.find(ctg => ctg.id === ele.category) ? this.allcategories.find(ctg => ctg.id === ele.category).id : '',
+                            name: this.allcategories.find(ctg => ctg.id === ele.category) ? this.allcategories.find(ctg => ctg.id === ele.category).name : ''
                         }
                         obj.Quantity = ele.quantity
                         obj.Date = ele.date

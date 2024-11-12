@@ -153,7 +153,7 @@
                 text: 'Create blog'
               },
               {
-                path: '/allblogs',
+                path: '/AllBlogs',
                 text: 'All blogs'
               },
             ]
