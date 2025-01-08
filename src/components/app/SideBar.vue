@@ -132,6 +132,24 @@
           },
 
           {
+            text: 'Order Status',
+            iconLink: 'bx bx-trip',
+            collapseId: 'collapseOrderStatus',
+            arrowCollapse: true,
+            childPath: [{
+                path: '/StatusList/StatusList',
+                text: 'Status List'
+              },
+              {
+                path: '/OrderStatus/CreateStatus',
+                text: 'Create status'
+              },
+            ]
+
+          },
+       
+
+          {
             path: '/Stock',
             text: 'Stock',
             iconLink: 'bx bxs-doughnut-chart'

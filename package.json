@@ -10,6 +10,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.2",
     "bootstrap-vue": "^2.23.1",

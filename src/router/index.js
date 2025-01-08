@@ -12,6 +12,7 @@ import StockProduct from '../views/StockProduct.vue'
 import BlogCategories from '../views/BlogCategories.vue'
 import CreateBlog from "../views/blogs/CreateBlog.vue"
 import AllBlogs from '../views/blogs/AllBlogs.vue'
+import CreateStatus from '../views/OrderStatus/StatusList.vue'
 // import NewOrders from '../views/NewOrders.vue'
 // import ConfirmedOredrs from '../views/ConfirmedOrders.vue'
 // import ShippedOrder from '../views/ShippedOrder.vue'
@@ -52,6 +53,7 @@ const routes = [
   { path: '/BlogCategories', component: BlogCategories},
   { path: '/createblog/:id', component: CreateBlog},
   { path: '/AllBlogs', component: AllBlogs},
+  { path: '/OrderStatus/CreateStatus', component: CreateStatus},
   // { path: '/Orders/NewOrders', component: NewOrders },
   // { path: '/Orders/Confirmed', component: ConfirmedOredrs},
   // { path: '/Orders/Shipped', component: ShippedOrder},
