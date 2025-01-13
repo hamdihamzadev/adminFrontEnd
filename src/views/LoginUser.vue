@@ -70,11 +70,11 @@
         try {
 
           if (this.formLogin.email !== '' || this.formLogin.password !== '') {
-            const response = await axios.post(`${this.apiUrl}/api/admin/login`,this.formLogin)
+            const response = await axios.post(`${this.apiUrl}/api/admin/login`, this.formLogin)
             const data = response.data
             if (data) {
-              localStorage.setItem('token',data.token)
-              localStorage.setItem('nameStore',data.nameStore)
+              localStorage.setItem('token', data.token)
+              localStorage.setItem('nameStore', data.nameStore)
               this.errorEmail.show = true
               this.errorPassword.show = true
               this.$router.push('/DashBord')
@@ -82,12 +82,27 @@
           }
 
         } catch (error) {
-          error.response.data.message === 'email is incorrecte' ? this.errorEmail.show = true : this.errorEmail.show=false
-          error.response.data.message === 'passwrod is incorrecte' ? this.errorPassword.show = true : this.errorPassword.show=false
-          error?console.log(error):null
+          error.response.data.message === 'email is incorrecte' ? this.errorEmail.show = true : this.errorEmail.show =
+            false
+          error.response.data.message === 'passwrod is incorrecte' ? this.errorPassword.show = true : this
+            .errorPassword.show = false
+          error ? console.log(error) : null
         }
       },
+
+      async geticon() {
+        try {
+          const response = await axios.get('https://api.simplesvg.com')
+          console.log('icons is ===>', response.data)
+        } catch (error) {
+          console.log('error get icons is :', error)
+        }
+      }
     },
+
+    mounted() {
+      this.geticon()
+    }
   }
 </script>
 
