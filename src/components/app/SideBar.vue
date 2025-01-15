@@ -137,7 +137,7 @@
             collapseId: 'collapseOrderStatus',
             arrowCollapse: true,
             childPath: [{
-                path: '/StatusList/StatusList',
+                path: '/OrderStatus/StatusList',
                 text: 'Status List'
               },
               {

@@ -1,0 +1,13 @@
+[
+    {"_id":"a1s2d3f4g5","name":"shipped","backgroundColor":"blue","color":"white","description":"order has been shipped"},
+    {"_id":"b6t7v8x9z0","name":"delivered","backgroundColor":"green","color":"white","description":"order successfully delivered"},
+    {"_id":"c9y0h1w2k3","name":"canceled","backgroundColor":"red","color":"white","description":"order has been canceled"},
+    {"_id":"d4r5u6i7o8","name":"returned","backgroundColor":"orange","color":"black","description":"order has been returned by customer"},
+    {"_id":"e1f2g3h4j5","name":"processing","backgroundColor":"yellow","color":"black","description":"order is being processed"},
+    {"_id":"f6u7p8m9n0","name":"awaiting payment","backgroundColor":"purple","color":"white","description":"payment pending for the order"},
+    {"_id":"g1w2e3v4p5","name":"preparing","backgroundColor":"lightblue","color":"black","description":"order is being prepared for shipment"},
+    {"_id":"h7t8i9l0k1","name":"on hold","backgroundColor":"grey","color":"black","description":"order is on hold due to issues"},
+    {"_id":"i2j3k4l5o6","name":"out of stock","backgroundColor":"brown","color":"white","description":"order cannot be fulfilled as item is out of stock"},
+    {"_id":"j5l6m7n8p9","name":"completed","backgroundColor":"darkgreen","color":"white","description":"order has been completed and closed"}
+  ]
+  
