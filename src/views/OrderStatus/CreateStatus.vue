@@ -92,8 +92,7 @@
                     :variant="variantAlert" 
                     @dismissed="dismissCountDown=0"
                     >
-                    <p>Status is created with success</p>
-                     <!-- {{ msgAlert }}  -->
+                     {{ msgAlert }} 
                 </b-alert>
             </div>
         </b-container>
