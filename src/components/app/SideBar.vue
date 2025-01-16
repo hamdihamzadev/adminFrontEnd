@@ -141,7 +141,7 @@
                 text: 'Status List'
               },
               {
-                path: '/OrderStatus/CreateStatus',
+                path: '/OrderStatus/CreateStatus/1',
                 text: 'Create status'
               },
             ]

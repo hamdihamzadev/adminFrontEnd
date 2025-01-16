@@ -54,7 +54,7 @@ const routes = [
   { path: '/BlogCategories', component: BlogCategories},
   { path: '/createblog/:id', component: CreateBlog},
   { path: '/AllBlogs', component: AllBlogs},
-  { path: '/OrderStatus/CreateStatus', component: CreateStatus},
+  { path: '/OrderStatus/CreateStatus/:id', component: CreateStatus},
   {path:'/OrderStatus/StatusList',component:StatusList}
   // { path: '/Orders/NewOrders', component: NewOrders },
   // { path: '/Orders/Confirmed', component: ConfirmedOredrs},
