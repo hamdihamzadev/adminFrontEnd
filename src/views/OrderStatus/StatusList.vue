@@ -46,8 +46,8 @@
                                     <template #button-content>
                                         <i class='bx bx-dots-vertical-rounded fs-3'></i>
                                     </template>
-                                    <b-dropdown-item href="#">
-                                        <b-icon @click="editStatus(item._id)" icon="pen" scale="0.7"></b-icon>Edit
+                                    <b-dropdown-item @click="$router.push(`/OrderStatus/CreateStatus/${item._id}`)" >
+                                        <b-icon  icon="pen" scale="0.7"></b-icon>Edit
                                     </b-dropdown-item>
                                     <b-dropdown-item href="#">
                                         <b-icon @click="deleteStatus(item._id)" icon="trash" scale="0.7"></b-icon>Delete
@@ -115,10 +115,15 @@
                         this.dismissCountDown=4
                     }
                 }
+            },
+
+            editProduct(id){
+                console.log(id)
+                this.$router.push(`OrderStatus/CreateStatus/${id}`)
             }
         },
 
-       async created(){
+       async mounted(){
             await this.getStatus()
         }
 

@@ -4,7 +4,9 @@
         <b-container class="p-4" fluid>
 
             <div class="p-4 bg-page">
-                <h3><strong>Create new product</strong></h3>
+                <h3>
+                    <strong >Create new product</strong>
+                </h3>
                 <p class="text-secondary mb-5">Remplissez les détails de votre nouveau produit ci-dessous.</p>
                 <b-alert
                     id="alert"
@@ -359,7 +361,6 @@
                         }
                     })
                     const product = response.data.product
-
                     setTimeout(() => {
                         this.formProduct.category = product.category
                         this.formProduct.name = product.name

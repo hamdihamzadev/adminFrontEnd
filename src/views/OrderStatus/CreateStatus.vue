@@ -2,63 +2,94 @@
     <section>
         <b-container class="p-4" fluid>
             <div class="rounded" id="border-page">
-                <h5 class="p-4 m-0 border-bottom" id="title"><strong>Create New Status</strong></h5>
+                <h5 class="p-4 m-0 border-bottom" id="title">
+                    <strong v-show="!idStatusEdit" >Create New Status</strong>
+                    <strong v-show="idStatusEdit" >Edit Status</strong>
+                </h5>
                 <b-form @submit.prevent="createStatus" class="p-4">
                     <b-row class="g-4">
 
                         <b-col cols="12">
                             <b-form-group label="Name*">
-                                <b-form-input id="input-name" type="text" placeholder="Enter name status"
+                                <b-form-input 
+                                    v-show="!showSkeleton" 
+                                    id="input-name" 
+                                    type="text" 
+                                    placeholder="Enter name status"
                                     v-model="formStatus.name" required>
                                 </b-form-input>
+                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
                         </b-col>
 
                         <b-col cols="12">
                             <b-form-group label="Description">
-                                <b-form-textarea id="input-description" placeholder="Enter descript status..." rows="3"
+                                <b-form-textarea 
+                                    v-show="!showSkeleton" 
+                                    id="input-description" placeholder="Enter descript status..." rows="3"
                                     v-model="formStatus.description" max-rows="6">
                                 </b-form-textarea>
+                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
                         </b-col>
 
                         <b-col cols="4">
                             <b-form-group label="Icon">
-                                <b-button id="btn-icon" :style="`background-color:${formStatus.backgroundColor}`"
+                                <b-button 
+                                    v-show="!showSkeleton" 
+                                    id="btn-icon" 
+                                    :style="`background-color:${formStatus.backgroundColor}`"
                                     @click="$bvModal.show('modalIcons')">
-                                    <b-icon :icon="formStatus.icon" scale="1.5" aria-hidden="true"
-                                        :style="`color:${formStatus.color}`"></b-icon>
+                                    <b-icon 
+                                        :icon="formStatus.icon" scale="1.5" 
+                                        aria-hidden="true"
+                                        :style="`color:${formStatus.color}`">
+                                    </b-icon>
                                 </b-button>
+                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
                         </b-col>
 
                         <b-col cols="4">
                             <b-form-group label="Color">
-                                <b-form-input id="input-name" type="color" v-model="formStatus.color" required>
+                                <b-form-input v-show="!showSkeleton"  id="input-name" type="color" v-model="formStatus.color" required>
                                 </b-form-input>
+                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
                         </b-col>
 
                         <b-col cols="4">
                             <b-form-group label="Background">
-                                <b-form-input id="input-name" type="color" v-model="formStatus.backgroundColor"
+                                <b-form-input v-show="!showSkeleton"  id="input-name" type="color" v-model="formStatus.backgroundColor"
                                     required>
                                 </b-form-input>
+                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
                         </b-col>
 
                         <b-col cols="12">
                             <div class="d-flex gap-2 justify-content-end">
-                                <b-button type="submit"
+                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
+                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
+                                <b-button
+                                  
+                                    type="submit"
                                     class="mt-5 d-flex justify-content-center align-items-center gap-1 "
                                     id="btn-cancel">
-                                    Cancel
+                                   <span v-show="!showSkeleton" >Cancel</span>
+                                    
                                 </b-button>
+                                
 
-                                <b-button type="submit"
+                                <b-button 
+                                   
+                                    type="submit"
                                     class="mt-5 d-flex justify-content-center align-items-center gap-1 " id="btn-save">
-                                    Save Status
+                                    <span v-show="!idStatusEdit" >Save Status</span>
+                                    <span v-show="idStatusEdit" >Edit Status</span>
+                                    
                                 </b-button>
+                                
                             </div>
 
                         </b-col>
@@ -119,6 +150,8 @@
                 },
                 icons: bootstrapIconsJson,
                 apiUrl: process.env.VUE_APP_API_URL,
+                showSkeleton:false,
+                idStatusEdit:'',
                 // ALERT
                 variantAlert:'success',
                 dismissCountDown:0,
@@ -167,10 +200,48 @@
                 }
             },
 
+            async getStatusEdit(){
+                try{
+                    const token=localStorage.getItem('token')
+                    const id=this.$route.params.id
+                    const response=await axios.get(`${this.apiUrl}/api/trackingOrder/getOneStatus/${id}`,{
+                        headers:{
+                            Authorization:`Bearer ${token}`
+                        }
+                    })
+                    
+                    this.formStatus.name=response.data.status.name
+                    this.formStatus.color=response.data.status.color
+                    this.formStatus.backgroundColor=response.data.status.backgroundColor
+                    this.formStatus.icon=response.data.status.icon
+                    this.formStatus.description=response.data.status.description
+                    this.idStatusEdit=response.data.status._id
+                   
+                    this.showSkeleton=false
+                    
+                }
+                catch(error){
+                    if(error.response && error.response.data && error.response.data.message){
+                        this.msgAlert=error.response.data.message
+                        this.variantAlert='danger'
+                        this.dismissCountDown=4
+                    }else{
+                        this.msgAlert='A problem has occurred on the server. Please try again later .'
+                        this.variantAlert='danger'
+                        this.dismissCountDown=4
+                        
+                    }
+                }
+            }
+
         },
 
         async mounted() {
             await this.getAdmin()
+            if(this.$route.params.id.length>1){
+                this.showSkeleton=true
+                await this.getStatusEdit()
+            }
         }
 
     }
