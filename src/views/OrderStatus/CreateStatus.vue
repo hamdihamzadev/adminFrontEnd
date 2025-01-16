@@ -3,8 +3,8 @@
         <b-container class="p-4" fluid>
             <div class="rounded" id="border-page">
                 <h5 class="p-4 m-0 border-bottom" id="title">
-                    <strong v-show="!idStatusEdit" >Create New Status</strong>
-                    <strong v-show="idStatusEdit" >Edit Status</strong>
+                    <strong v-show="$route.params.id=1" >Create New Status</strong>
+                    <strong v-show="$route.params.id!==1" >Edit Status</strong>
                 </h5>
                 <b-form @submit.prevent="createStatus" class="p-4">
                     <b-row class="g-4">
@@ -236,11 +236,21 @@
 
         },
 
-        async mounted() {
-            await this.getAdmin()
+        watch:{
+            '$route.params.id'(){
+                this.formStatus.name=''
+                this.formStatus.description=''
+                this.formStatus.icon='alarm'
+                this.formStatus.color='#388dd8'
+                this.formStatus.backgroundColor='#ffffff'
+            }
+        },
+
+        mounted() {
+            this.getAdmin()
             if(this.$route.params.id.length>1){
                 this.showSkeleton=true
-                await this.getStatusEdit()
+                this.getStatusEdit()
             }
         }
 
