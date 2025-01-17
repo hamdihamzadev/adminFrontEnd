@@ -3,20 +3,16 @@
         <b-container class="p-4" fluid>
             <div class="rounded" id="border-page">
                 <h5 class="p-4 m-0 border-bottom" id="title">
-                    <strong v-show="$route.params.id=1" >Create New Status</strong>
-                    <strong v-show="$route.params.id!==1" >Edit Status</strong>
+                    <strong v-show="$route.params.id=1">Create New Status</strong>
+                    <strong v-show="$route.params.id!==1">Edit Status</strong>
                 </h5>
                 <b-form @submit.prevent="createStatus" class="p-4">
                     <b-row class="g-4">
 
                         <b-col cols="12">
                             <b-form-group label="Name*">
-                                <b-form-input 
-                                    v-show="!showSkeleton" 
-                                    id="input-name" 
-                                    type="text" 
-                                    placeholder="Enter name status"
-                                    v-model="formStatus.name" required>
+                                <b-form-input v-show="!showSkeleton" id="input-name" type="text"
+                                    placeholder="Enter name status" v-model="formStatus.name" required>
                                 </b-form-input>
                                 <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
@@ -24,10 +20,9 @@
 
                         <b-col cols="12">
                             <b-form-group label="Description">
-                                <b-form-textarea 
-                                    v-show="!showSkeleton" 
-                                    id="input-description" placeholder="Enter descript status..." rows="3"
-                                    v-model="formStatus.description" max-rows="6">
+                                <b-form-textarea v-show="!showSkeleton" id="input-description"
+                                    placeholder="Enter descript status..." rows="3" v-model="formStatus.description"
+                                    max-rows="6">
                                 </b-form-textarea>
                                 <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
@@ -35,14 +30,10 @@
 
                         <b-col cols="4">
                             <b-form-group label="Icon">
-                                <b-button 
-                                    v-show="!showSkeleton" 
-                                    id="btn-icon" 
+                                <b-button v-show="!showSkeleton" id="btn-icon"
                                     :style="`background-color:${formStatus.backgroundColor}`"
                                     @click="$bvModal.show('modalIcons')">
-                                    <b-icon 
-                                        :icon="formStatus.icon" scale="1.5" 
-                                        aria-hidden="true"
+                                    <b-icon :icon="formStatus.icon" scale="1.5" aria-hidden="true"
                                         :style="`color:${formStatus.color}`">
                                     </b-icon>
                                 </b-button>
@@ -52,7 +43,8 @@
 
                         <b-col cols="4">
                             <b-form-group label="Color">
-                                <b-form-input v-show="!showSkeleton"  id="input-name" type="color" v-model="formStatus.color" required>
+                                <b-form-input v-show="!showSkeleton" id="input-name" type="color"
+                                    v-model="formStatus.color" required>
                                 </b-form-input>
                                 <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
@@ -60,36 +52,25 @@
 
                         <b-col cols="4">
                             <b-form-group label="Background">
-                                <b-form-input v-show="!showSkeleton"  id="input-name" type="color" v-model="formStatus.backgroundColor"
-                                    required>
+                                <b-form-input v-show="!showSkeleton" id="input-name" type="color"
+                                    v-model="formStatus.backgroundColor" required>
                                 </b-form-input>
                                 <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
                             </b-form-group>
                         </b-col>
 
-                        <b-col cols="12">
+                        <b-col cols="12" v-show="showSkeleton===false">
                             <div class="d-flex gap-2 justify-content-end">
-                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
-                                <b-skeleton width="100%" type="input" v-show="showSkeleton"></b-skeleton>
-                                <b-button
-                                  
-                                    type="submit"
+                                <b-button type="submit"
                                     class="mt-5 d-flex justify-content-center align-items-center gap-1 "
                                     id="btn-cancel">
-                                   <span v-show="!showSkeleton" >Cancel</span>
-                                    
+                                    <span >Cancel</span>
                                 </b-button>
-                                
 
-                                <b-button 
-                                   
-                                    type="submit"
+                                <b-button type="submit"
                                     class="mt-5 d-flex justify-content-center align-items-center gap-1 " id="btn-save">
-                                    <span v-show="!idStatusEdit" >Save Status</span>
-                                    <span v-show="idStatusEdit" >Edit Status</span>
-                                    
+                                    <span v-show="!showSkeleton">{{ textBtnForm }}</span>
                                 </b-button>
-                                
                             </div>
 
                         </b-col>
@@ -116,14 +97,9 @@
                     </template>
                 </b-modal>
                 <!-- ALERT -->
-                <b-alert 
-                    class="position-fixed top-0 start-0 end-0 z-3 d-flex align-items-center"
-                    :show="dismissCountDown" 
-                    dismissible 
-                    :variant="variantAlert" 
-                    @dismissed="dismissCountDown=0"
-                    >
-                     {{ msgAlert }} 
+                <b-alert class="position-fixed top-0 start-0 end-0 z-3 d-flex align-items-center"
+                    :show="dismissCountDown" dismissible :variant="variantAlert" @dismissed="dismissCountDown=0">
+                    {{ msgAlert }}
                 </b-alert>
             </div>
         </b-container>
@@ -150,37 +126,47 @@
                 },
                 icons: bootstrapIconsJson,
                 apiUrl: process.env.VUE_APP_API_URL,
-                showSkeleton:false,
-                idStatusEdit:'',
+                showSkeleton: false,
+                idStatusEdit: '',
+                textBtnForm:'Save Status',
                 // ALERT
-                variantAlert:'success',
-                dismissCountDown:0,
-                msgAlert:''
+                variantAlert: 'success',
+                dismissCountDown: 0,
+                msgAlert: ''
             }
         },
 
         methods: {
-            async createStatus() {
+
+            async createStatus(){
+                if(this.textBtnForm==='Save Status'){
+                    await this.addStatus()
+                }else{
+                    this.editStatus()
+                }
+            },
+
+            async addStatus() {
                 try {
                     const token = localStorage.getItem('token')
                     await axios.post(`${this.apiUrl}/api/trackingOrder/Addstatus`, this
-                    .formStatus, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-                    this.msgAlert='status is created with success'
-                    this.dismissCountDown=4
+                        .formStatus, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        })
+                    this.msgAlert = 'status is created with success'
+                    this.dismissCountDown = 4
                 } catch (error) {
-                    if(error.response && error.response.data && error.response.data.message){
-                        this.msgAlert='status not created please try again'
-                        this.variantAlert='danger'
-                        this.dismissCountDown=4
-                    }else{
-                        this.msgAlert='A problem has occurred on the server. Please try again later .'
-                        this.variantAlert='danger'
-                        this.dismissCountDown=4
-                        
+                    if (error.response && error.response.data && error.response.data.message) {
+                        this.msgAlert = 'status not created please try again'
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
+                    } else {
+                        this.msgAlert = 'A problem has occurred on the server. Please try again later .'
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
+
                     }
                 }
             },
@@ -200,58 +186,96 @@
                 }
             },
 
-            async getStatusEdit(){
+            async getStatusEdit() {
+                try {
+                    const token = localStorage.getItem('token')
+                    const id = this.$route.params.id
+                    const response = await axios.get(`${this.apiUrl}/api/trackingOrder/getOneStatus/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    // form
+                    this.formStatus.name = response.data.status.name
+                    this.formStatus.color = response.data.status.color
+                    this.formStatus.backgroundColor = response.data.status.backgroundColor
+                    this.formStatus.icon = response.data.status.icon
+                    this.formStatus.description = response.data.status.description
+                    this.idStatusEdit = response.data.status._id
+
+                    this.textBtnForm='Edit Status'
+                    this.showSkeleton = false
+
+                } catch (error) {
+                    if (error.response && error.response.data && error.response.data.message) {
+                        this.msgAlert = error.response.data.message
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
+                    } else {
+                        this.msgAlert = 'A problem has occurred on the server. Please try again later .'
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
+
+                    }
+                }
+            },
+
+            async editStatus(){
                 try{
                     const token=localStorage.getItem('token')
-                    const id=this.$route.params.id
-                    const response=await axios.get(`${this.apiUrl}/api/trackingOrder/getOneStatus/${id}`,{
+                    const id=this.$route.path.split('/')[3]
+                    const response=await axios.put(`${this.apiUrl}/api/trackingOrder/UpdateStatus/${id}`,this.formStatus,{
                         headers:{
                             Authorization:`Bearer ${token}`
                         }
                     })
-                    
-                    this.formStatus.name=response.data.status.name
-                    this.formStatus.color=response.data.status.color
-                    this.formStatus.backgroundColor=response.data.status.backgroundColor
-                    this.formStatus.icon=response.data.status.icon
-                    this.formStatus.description=response.data.status.description
-                    this.idStatusEdit=response.data.status._id
-                   
-                    this.showSkeleton=false
-                    
+
+                    const status=response.data.status
+                    this.formStatus.name=status.name
+                    this.formStatus.description=status.description
+                    this.formStatus.backgroundColor=status.backgroundColor
+                    this.formStatus.color=status.color
+                    this.formStatus.icon=status.icon
+
+                    this.msgAlert='Status is update with success'
+                    this.variantAlert = 'success'
+                    this.dismissCountDown = 4
                 }
                 catch(error){
-                    if(error.response && error.response.data && error.response.data.message){
-                        this.msgAlert=error.response.data.message
-                        this.variantAlert='danger'
-                        this.dismissCountDown=4
-                    }else{
-                        this.msgAlert='A problem has occurred on the server. Please try again later .'
-                        this.variantAlert='danger'
-                        this.dismissCountDown=4
-                        
+                    if (error.response && error.response.data && error.response.data.message) {
+                        this.msgAlert = error.response.data.message
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
+                    } else {
+                        this.msgAlert = 'A problem has occurred on the server. Please try again later .'
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
                     }
                 }
             }
 
         },
 
-        watch:{
-            '$route.params.id'(){
-                this.formStatus.name=''
-                this.formStatus.description=''
-                this.formStatus.icon='alarm'
-                this.formStatus.color='#388dd8'
-                this.formStatus.backgroundColor='#ffffff'
+        watch: {
+            '$route.params.id': {
+                immediate: true,
+                handler(newId) {
+                    if(newId.length>1){
+                        this.showSkeleton=true
+                        this.getStatusEdit()
+                    }else{
+                        this.formStatus.name = ''
+                        this.formStatus.description = ''
+                        this.formStatus.icon = 'alarm'
+                        this.formStatus.color = '#388dd8'
+                        this.formStatus.backgroundColor = '#ffffff'
+                    }
+                },
             }
         },
 
         mounted() {
             this.getAdmin()
-            if(this.$route.params.id.length>1){
-                this.showSkeleton=true
-                this.getStatusEdit()
-            }
         }
 
     }
@@ -310,7 +334,7 @@
             width: 18%;
         }
 
-        v::dep .alert{
+        v::dep .alert {
             display: flex;
             align-items: center;
         }

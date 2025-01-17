@@ -118,7 +118,6 @@
             },
 
             editProduct(id){
-                console.log(id)
                 this.$router.push(`OrderStatus/CreateStatus/${id}`)
             }
         },

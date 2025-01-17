@@ -252,10 +252,10 @@
         methods: {
 
 
-      showAlert() {
-        this.showDismissibleAlert=true
-        this.dismissCountDown = this.dismissSecs
-      },
+            showAlert() {
+              this.showDismissibleAlert=true
+              this.dismissCountDown = this.dismissSecs
+            },
 
             handlForm() {
                 if (this.textbtnform === 'Edit') {
@@ -431,6 +431,7 @@
         },
 
         mounted() {
+            
             //  Fetch products and categories
             this.fetchCategories()
             this.fetchProducts()
