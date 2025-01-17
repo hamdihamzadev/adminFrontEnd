@@ -6,7 +6,7 @@
                     <h5 class="m-0" id="title">
                         <strong>List status</strong>
                     </h5>
-                    <b-button id="btn-createStatus" class="bg-transparent border-0 p-0">
+                    <b-button @click="$router.push(`/OrderStatus/CreateStatus/1`)" id="btn-createStatus" class="bg-transparent border-0 p-0">
                         <b-icon icon="plus" scale="1" aria-hidden="true"></b-icon>
                         Create status
                     </b-button>
@@ -49,8 +49,8 @@
                                     <b-dropdown-item @click="$router.push(`/OrderStatus/CreateStatus/${item._id}`)" >
                                         <b-icon  icon="pen" scale="0.7"></b-icon>Edit
                                     </b-dropdown-item>
-                                    <b-dropdown-item href="#">
-                                        <b-icon @click="deleteStatus(item._id)" icon="trash" scale="0.7"></b-icon>Delete
+                                    <b-dropdown-item @click="deleteStatus(item._id)" >
+                                        <b-icon  icon="trash" scale="0.7"></b-icon>Delete
                                     </b-dropdown-item>
                                 </b-dropdown>
                             </div>
@@ -63,7 +63,7 @@
                 </div>
                 <!-- ALERT -->
                 <b-alert class="position-fixed top-0 start-0 end-0 z-3 d-flex align-items-center"
-                    :show="dismissCountDown" dismissible variant="danger" @dismissed="dismissCountDown=0">
+                    :show="dismissCountDown" dismissible :variant="variantAlert" @dismissed="dismissCountDown=0">
                     {{ msgAlert }}
                 </b-alert>
             </div>
@@ -83,7 +83,8 @@
                 AvailabilityStatuses:false,
                 // ALERT
                 dismissCountDown: 0,
-                msgAlert: ''
+                msgAlert: '',
+                variantAlert:'success'
             }
         },
 
@@ -119,7 +120,42 @@
 
             editProduct(id){
                 this.$router.push(`OrderStatus/CreateStatus/${id}`)
+            },
+
+            deleteStatus(id){
+                const isConfirmed  =confirm("Do you want to delete this status?")
+                if(isConfirmed ){
+                   this.editStatus(id)
+                }
+            },
+
+            async editStatus(id){
+                try{
+                    const token=localStorage.getItem('token')
+                    const response=await axios.put(`${this.apiUrl}/api/trackingOrder/UpdateStatus/${id}`,{delete:true},{
+                        headers:{
+                            Authorization:`Bearer ${token}`
+                        }
+                    })
+
+                    this.status=response.data.status
+                    this.msgAlert='Status has been successfully deleted'
+                    this.variantAlert = 'success'
+                    this.dismissCountDown = 4
+                }
+                catch(error){
+                    if (error.response && error.response.data && error.response.data.message) {
+                        this.msgAlert = `Status hasn't been deleted please try again .`
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
+                    } else {
+                        this.msgAlert = 'A problem has occurred on the server. Please try again later .'
+                        this.variantAlert = 'danger'
+                        this.dismissCountDown = 4
+                    }
+                }
             }
+
         },
 
        async mounted(){

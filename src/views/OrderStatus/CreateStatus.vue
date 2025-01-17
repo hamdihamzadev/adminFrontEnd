@@ -224,19 +224,11 @@
                 try{
                     const token=localStorage.getItem('token')
                     const id=this.$route.path.split('/')[3]
-                    const response=await axios.put(`${this.apiUrl}/api/trackingOrder/UpdateStatus/${id}`,this.formStatus,{
+                    await axios.put(`${this.apiUrl}/api/trackingOrder/UpdateStatus/${id}`,this.formStatus,{
                         headers:{
                             Authorization:`Bearer ${token}`
                         }
                     })
-
-                    const status=response.data.status
-                    this.formStatus.name=status.name
-                    this.formStatus.description=status.description
-                    this.formStatus.backgroundColor=status.backgroundColor
-                    this.formStatus.color=status.color
-                    this.formStatus.icon=status.icon
-
                     this.msgAlert='Status is update with success'
                     this.variantAlert = 'success'
                     this.dismissCountDown = 4
